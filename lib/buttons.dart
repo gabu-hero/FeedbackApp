@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Buttons extends StatelessWidget {
   final String text;
+  final VoidCallback onPressed;
 
-  Buttons({required this.text});
+  Buttons({required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +14,7 @@ class Buttons extends StatelessWidget {
         height: 50,
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: () {
-            // Handle button press
-          },
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xff2e73ae),
             shape: RoundedRectangleBorder(
