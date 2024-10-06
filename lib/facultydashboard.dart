@@ -1,4 +1,5 @@
 import 'package:feedback_app/dashboardbutton.dart';
+import 'package:feedback_app/profilepage.dart';
 import 'package:flutter/material.dart';
 
 class FacultyDashboard extends StatelessWidget {
@@ -54,7 +55,13 @@ class FacultyDashboard extends StatelessWidget {
                       label: 'Profile',
                       icon: Icons.person,
                       color: customcolor1,
-                      onPressed: () {})
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage()),
+                        );
+                      })
                 ],
               ),
             ),

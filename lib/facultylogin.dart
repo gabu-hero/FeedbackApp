@@ -1,3 +1,4 @@
+import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/facultydashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -46,31 +47,14 @@ class FacultyLoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40),
-            Center(
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FacultyDashboard()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff2e73ae),
-                  ),
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                      color: Colors.white, // Set the text color to white
-                      fontSize: 18, // Adjust font size if needed
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            Buttons(
+                text: 'Login',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FacultyDashboard()),
+                  );
+                }),
           ],
         ),
       ),
