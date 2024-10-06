@@ -1,4 +1,6 @@
 import 'package:feedback_app/buttons.dart';
+import 'package:feedback_app/facultydepartment.dart';
+import 'package:feedback_app/studentdepartment.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -42,8 +44,26 @@ class LoginButtons extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20.0),
-              Buttons(text: 'Login as Student'),
-              Buttons(text: 'Login as Faculty'),
+              Buttons(
+                text: 'Login as Student',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DepartmentPageStudent()),
+                  );
+                },
+              ),
+              Buttons(
+                text: 'Login as Faculty',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DepartmentPageFaculty()),
+                  );
+                },
+              ),
             ],
           ),
         ),
