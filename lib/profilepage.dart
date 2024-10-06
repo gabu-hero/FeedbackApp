@@ -1,3 +1,6 @@
+import 'package:feedback_app/buttons.dart';
+import 'package:feedback_app/mainloginpage.dart';
+import 'package:feedback_app/passwordresetpage.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -43,9 +46,9 @@ class ProfilePage extends StatelessWidget {
             // Clickable Text for Editing Password
             GestureDetector(
               onTap: () {
-                // Handle password edit functionality here
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Edit Password clicked')),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PasswordResetPage()),
                 );
               },
               child: Text(
@@ -61,23 +64,14 @@ class ProfilePage extends StatelessWidget {
             Spacer(), // Pushes logout button to the bottom
 
             // Logout Button at the Bottom
-            ElevatedButton(
-              onPressed: () {
-                // Handle logout functionality
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Logged out')),
-                );
-              },
-              child: Text('Logout',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18, // Change this to your desired font color
-                  )),
-              style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  backgroundColor: Color(0xFF2E73AE) // Full-width button
-                  ),
-            ),
+            Buttons(
+                text: 'Logout',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Mainloginpage()),
+                  );
+                })
           ],
         ),
       ),
