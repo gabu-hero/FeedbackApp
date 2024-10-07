@@ -7,6 +7,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text('Profile',
             style: TextStyle(
@@ -69,7 +70,7 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Mainloginpage()),
+                    MaterialPageRoute(builder: (context) => LoginButtons()),
                   );
                 })
           ],

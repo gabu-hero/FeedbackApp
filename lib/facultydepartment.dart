@@ -26,6 +26,7 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text(
           'Department Selection',
@@ -62,7 +63,7 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                   SizedBox(height: 10),
                   DropdownButtonFormField<String>(
                     value: selectedDepartment,
-                    hint: Text('Select Department'),
+                    hint: Text('Select Faculty '),
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedDepartment = newValue;
@@ -75,6 +76,12 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                         child: Text(department),
                       );
                     }).toList(),
+                    decoration: InputDecoration(
+                      border:
+                          OutlineInputBorder(), // Add border similar to text fields
+                      filled: true,
+                      fillColor: const Color(0xEBFFFFFF),
+                    ),
                   ),
                   SizedBox(height: 55),
                   Buttons(

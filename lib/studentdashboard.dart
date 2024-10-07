@@ -1,4 +1,5 @@
 import 'package:feedback_app/dashboardbutton.dart';
+import 'package:feedback_app/facultyfeedbackform.dart';
 import 'package:feedback_app/profilepage.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class Studentdashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text(
           'Student Dashboard',
@@ -36,25 +38,28 @@ class Studentdashboard extends StatelessWidget {
                 mainAxisSpacing: 30,
                 children: [
                   DashboardButton(
-                    label: 'give Feedback',
+                    label: 'Give Feedback',
                     icon: Icons.note_alt,
                     color: customcolor1,
                     onPressed: () {
-                      // Add functionality here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Facultyfeedbackform()),
+                      );
                     },
                   ),
-                  
                   DashboardButton(
                       label: 'Profile',
                       icon: Icons.person,
                       color: customcolor1,
-                      onPressed: () {Navigator.push(
+                      onPressed: () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage()),
-                        );}),
-                  
-                  
+                        );
+                      }),
                 ],
               ),
             ),

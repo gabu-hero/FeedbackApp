@@ -1,10 +1,11 @@
-import 'package:feedback_app/facultyfeedbackform.dart';
+import 'package:feedback_app/studentdashboard.dart';
 import 'package:flutter/material.dart';
 
 class StudentLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text(
           'Student Login',
@@ -55,7 +56,7 @@ class StudentLoginPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Facultyfeedbackform()),
+                          builder: (context) => Studentdashboard()),
                     );
                   },
                   style: ElevatedButton.styleFrom(

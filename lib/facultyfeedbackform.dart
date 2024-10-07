@@ -10,9 +10,14 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final _programmeNameController = TextEditingController();
   final _courseCodeController = TextEditingController();
   final _courseTitleController = TextEditingController();
-  final _facultyNameController = TextEditingController();
   final _suggestionsController = TextEditingController();
   Color buttoncolor = Color(0xff2e73ae);
+  String? selectedFaculty;
+  final List<String> faculty = [
+    'A',
+    'B',
+    'C',
+  ];
 
   // Variables to store feedback ratings
   Map<String, int?> facultyFeedback = {};
@@ -25,8 +30,6 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
     _programmeNameController.dispose();
     _courseCodeController.dispose();
     _courseTitleController.dispose();
-    _facultyNameController.dispose();
-
     _suggestionsController.dispose();
     super.dispose();
   }
@@ -75,7 +78,35 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
             buildTextField('Programme Name:', _programmeNameController),
             buildTextField('Course Code:', _courseCodeController),
             buildTextField('Course Title:', _courseTitleController),
-            buildTextField('Faculty Name:', _facultyNameController),
+            Padding(
+              padding: const EdgeInsets.only(
+                  bottom: 12.0), // Adds padding of 12 below the text
+              child: Text(
+                'Faculty Name:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            DropdownButtonFormField<String>(
+              value: selectedFaculty,
+              hint: Text('Select Faculty '),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedFaculty = newValue;
+                });
+              },
+              items: faculty.map<DropdownMenuItem<String>>((String department) {
+                return DropdownMenuItem<String>(
+                  value: department,
+                  child: Text(department),
+                );
+              }).toList(),
+              decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(), // Add border similar to text fields
+                filled: true,
+                fillColor: const Color(0xEBFFFFFF),
+              ),
+            ),
             const SizedBox(height: 8),
             const Text(
               'Note: \nIn the below Rating Section;\n0 = Bad, 5 = Average, 10 = Good ',

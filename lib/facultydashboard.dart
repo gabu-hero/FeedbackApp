@@ -1,5 +1,6 @@
 import 'package:feedback_app/dashboardbutton.dart';
 import 'package:feedback_app/profilepage.dart';
+import 'package:feedback_app/statisticsdropdownvisual.dart';
 import 'package:flutter/material.dart';
 
 class FacultyDashboard extends StatelessWidget {
@@ -9,6 +10,7 @@ class FacultyDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text(
           'Faculty Dashboard',
@@ -48,7 +50,11 @@ class FacultyDashboard extends StatelessWidget {
                     icon: Icons.bar_chart,
                     color: customcolor1,
                     onPressed: () {
-                      // Add functionality here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StatisticsDropdownVisual()),
+                      );
                     },
                   ),
                   DashboardButton(

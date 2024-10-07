@@ -3,24 +3,11 @@ import 'package:feedback_app/facultydepartment.dart';
 import 'package:feedback_app/studentdepartment.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(Mainloginpage());
-}
-
-class Mainloginpage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginButtons(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
 class LoginButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text(
           'Feedback',
