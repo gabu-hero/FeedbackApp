@@ -1,6 +1,7 @@
 import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/facultydashboard.dart';
+import 'package:feedback_app/hoddashboard.dart';
 import 'package:flutter/material.dart';
 
 class FacultyLoginPage extends StatelessWidget {
@@ -8,7 +9,9 @@ class FacultyLoginPage extends StatelessWidget {
   final String fRole;
   final AppwriteService as = AppwriteService();
 
-  FacultyLoginPage({required this.deptidf, required this.fRole});
+  FacultyLoginPage(
+      {required this.deptidf,
+      required this.fRole}); //Received role and dept from FacultyDepartmentPage
   final TextEditingController fusernameController = TextEditingController();
   final TextEditingController fpasswordController = TextEditingController();
   @override
@@ -64,22 +67,52 @@ class FacultyLoginPage extends StatelessWidget {
                   final String userName = fusernameController.text;
                   final String passWord = fpasswordController.text;
 
-                  final isValid = await as.verifyUserCredentialsF(
-                      userName, passWord, deptidf, fRole);
+                  String prefix = userName.substring(0, 3);
+                  if (prefix == 'HOD') {
+                    final isValid = await as.verifyUserCredentialsF(
+                        userName,
+                        passWord,
+                        deptidf,
+                        fRole); //Verifying if all entered data has a exact match in database
 
-                  if (isValid) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Logged in Successfully ')),
-                    );
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FacultyDashboard()),
-                    );
+                    if (isValid) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Logged in Successfully ')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => HodDashboard()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content:
+                                Text('Invalid username or password or Role')),
+                      );
+                    }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Invalid username or password')),
-                    );
+                    final isValid = await as.verifyUserCredentialsF(
+                        userName,
+                        passWord,
+                        deptidf,
+                        fRole); //Verifying if all entered data has a exact match in database
+
+                    if (isValid) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Logged in Successfully ')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FacultyDashboard()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content:
+                                Text('Invalid username or password or Role')),
+                      );
+                    }
                   }
                 }),
           ],
