@@ -37,7 +37,9 @@ class LoginButtons extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DepartmentPageStudent()),
+                        builder: (context) => DepartmentPageStudent(
+                              recRole1: 'Student',
+                            )),
                   );
                 },
               ),
@@ -47,7 +49,8 @@ class LoginButtons extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DepartmentPageFaculty()),
+                        builder: (context) =>
+                            DepartmentPageFaculty(recRole2: 'Faculty')),
                   );
                 },
               ),

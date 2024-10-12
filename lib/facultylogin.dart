@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 
 class FacultyLoginPage extends StatelessWidget {
   final int deptidf;
+  final String fRole;
   final AppwriteService as = AppwriteService();
 
-  FacultyLoginPage({required this.deptidf});
+  FacultyLoginPage({required this.deptidf, required this.fRole});
   final TextEditingController fusernameController = TextEditingController();
   final TextEditingController fpasswordController = TextEditingController();
   @override
@@ -63,8 +64,8 @@ class FacultyLoginPage extends StatelessWidget {
                   final String userName = fusernameController.text;
                   final String passWord = fpasswordController.text;
 
-                  final isValid = await as.verifyUserCredentials(
-                      userName, passWord, deptidf);
+                  final isValid = await as.verifyUserCredentialsF(
+                      userName, passWord, deptidf, fRole);
 
                   if (isValid) {
                     ScaffoldMessenger.of(context).showSnackBar(

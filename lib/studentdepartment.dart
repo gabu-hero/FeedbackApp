@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import 'studentlogin.dart';
 
 class DepartmentPageStudent extends StatefulWidget {
+  late final String recRole1;
+  DepartmentPageStudent({required this.recRole1});
   @override
-  _DepartmentPageState createState() => _DepartmentPageState();
+  _DepartmentPageState createState() =>
+      _DepartmentPageState(srecRole: recRole1);
 }
 
 class _DepartmentPageState extends State<DepartmentPageStudent> {
+  final String srecRole;
+  _DepartmentPageState({required this.srecRole});
   final AppwriteService as = AppwriteService();
   late int deptid;
   String? selectedDepartment;
@@ -90,15 +95,15 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                   Buttons(
                     text: 'Submit',
                     onPressed: () async {
-                      print(selectedDepartment);
+                      //print(selectedDepartment);
                       deptid =
                           await as.getDepartmentIdByName(selectedDepartment);
-                      print(deptid);
+                      //print(deptid);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                StudentLoginPage(sdeptid: deptid)),
+                            builder: (context) => StudentLoginPage(
+                                sdeptid: deptid, sRole: srecRole)),
                       );
                     },
                   )

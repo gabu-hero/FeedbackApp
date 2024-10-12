@@ -4,11 +4,17 @@ import 'package:feedback_app/facultylogin.dart';
 import 'package:flutter/material.dart';
 
 class DepartmentPageFaculty extends StatefulWidget {
+  final String recRole2;
+  DepartmentPageFaculty({required this.recRole2});
   @override
-  _DepartmentPageState createState() => _DepartmentPageState();
+  _DepartmentPageState createState() =>
+      _DepartmentPageState(frecRole: recRole2);
 }
 
 class _DepartmentPageState extends State<DepartmentPageFaculty> {
+  final String frecRole;
+  _DepartmentPageState({required this.frecRole});
+
   final AppwriteService as = AppwriteService();
   late int fdeptid;
   String? selectedDepartment;
@@ -96,8 +102,8 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                FacultyLoginPage(deptidf: fdeptid)),
+                            builder: (context) => FacultyLoginPage(
+                                deptidf: fdeptid, fRole: frecRole)),
                       );
                     },
                   )

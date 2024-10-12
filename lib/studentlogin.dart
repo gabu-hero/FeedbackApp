@@ -1,12 +1,12 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/studentdashboard.dart';
 import 'package:flutter/material.dart';
 
 class StudentLoginPage extends StatelessWidget {
   final int sdeptid;
+  final String sRole;
 
-  StudentLoginPage({required this.sdeptid});
+  StudentLoginPage({required this.sdeptid, required this.sRole});
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -69,7 +69,7 @@ class StudentLoginPage extends StatelessWidget {
                     final String passWord = passwordController.text;
 
                     final isValid = await as.verifyUserCredentials(
-                        userName, passWord, sdeptid);
+                        userName, passWord, sdeptid, sRole);
 
                     if (isValid) {
                       ScaffoldMessenger.of(context).showSnackBar(
