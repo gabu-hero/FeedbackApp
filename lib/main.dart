@@ -1,5 +1,6 @@
 import 'package:feedback_app/mainloginpage.dart';
 import 'package:flutter/material.dart';
+import 'appwriteprovider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

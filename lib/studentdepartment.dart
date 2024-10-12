@@ -1,3 +1,4 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:flutter/material.dart';
 import 'studentlogin.dart';
@@ -8,6 +9,8 @@ class DepartmentPageStudent extends StatefulWidget {
 }
 
 class _DepartmentPageState extends State<DepartmentPageStudent> {
+  final AppwriteService as = AppwriteService();
+  late int deptid;
   String? selectedDepartment;
   final List<String> departments = [
     'Civil Engineering',
@@ -63,10 +66,10 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                   SizedBox(height: 10),
                   DropdownButtonFormField<String>(
                     value: selectedDepartment,
-                    hint: Text('Select Faculty '),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedDepartment = newValue;
+                    hint: Text('Select Department '),
+                    onChanged: (String? nValue) {
+                      setState(() async {
+                        selectedDepartment = nValue.toString();
                       });
                     },
                     items: departments
@@ -86,19 +89,17 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                   SizedBox(height: 55),
                   Buttons(
                     text: 'Submit',
-                    onPressed: () {
-                      if (selectedDepartment != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StudentLoginPage()),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('Please select your department')),
-                        );
-                      }
+                    onPressed: () async {
+                      print(selectedDepartment);
+                      deptid =
+                          await as.getDepartmentIdByName(selectedDepartment);
+                      print(deptid);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                StudentLoginPage(sdeptid: deptid)),
+                      );
                     },
                   )
                 ],

@@ -1,7 +1,18 @@
+import 'package:appwrite/appwrite.dart';
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/studentdashboard.dart';
 import 'package:flutter/material.dart';
 
 class StudentLoginPage extends StatelessWidget {
+  final int sdeptid;
+
+  StudentLoginPage({required this.sdeptid});
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  final AppwriteService as = AppwriteService();
+
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +26,6 @@ class StudentLoginPage extends StatelessWidget {
         ),
         centerTitle: false, // Align the title to the left
         backgroundColor: Color(0xff2e73ae),
-
         elevation: 0,
       ),
       body: Padding(
@@ -25,7 +35,7 @@ class StudentLoginPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: 40),
-            // Account Icon added by code
+            // Account Icon
             Icon(
               Icons.account_circle, // Built-in Flutter icon
               size: 150, // Adjust the size as needed
@@ -33,6 +43,7 @@ class StudentLoginPage extends StatelessWidget {
             ),
             SizedBox(height: 40),
             TextField(
+              controller: usernameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Username',
@@ -40,6 +51,7 @@ class StudentLoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextField(
+              controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -52,12 +64,27 @@ class StudentLoginPage extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Studentdashboard()),
-                    );
+                  onPressed: () async {
+                    final String userName = usernameController.text;
+                    final String passWord = passwordController.text;
+
+                    final isValid = await as.verifyUserCredentials(
+                        userName, passWord, sdeptid);
+
+                    if (isValid) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Logged in Successfully ')),
+                      );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Studentdashboard()),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Invalid username or password')),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff2e73ae),

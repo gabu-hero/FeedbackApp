@@ -1,8 +1,15 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/facultydashboard.dart';
 import 'package:flutter/material.dart';
 
 class FacultyLoginPage extends StatelessWidget {
+  final int deptidf;
+  final AppwriteService as = AppwriteService();
+
+  FacultyLoginPage({required this.deptidf});
+  final TextEditingController fusernameController = TextEditingController();
+  final TextEditingController fpasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +41,7 @@ class FacultyLoginPage extends StatelessWidget {
             ),
             SizedBox(height: 40),
             TextField(
+              controller: fusernameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Username',
@@ -41,6 +49,7 @@ class FacultyLoginPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextField(
+              controller: fpasswordController,
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
@@ -50,11 +59,27 @@ class FacultyLoginPage extends StatelessWidget {
             SizedBox(height: 40),
             Buttons(
                 text: 'Login',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FacultyDashboard()),
-                  );
+                onPressed: () async {
+                  final String userName = fusernameController.text;
+                  final String passWord = fpasswordController.text;
+
+                  final isValid = await as.verifyUserCredentials(
+                      userName, passWord, deptidf);
+
+                  if (isValid) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Logged in Successfully ')),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FacultyDashboard()),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Invalid username or password')),
+                    );
+                  }
                 }),
           ],
         ),

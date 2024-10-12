@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   appwrite: ^13.0.0
-  
+ 
 
 
   # The following adds the Cupertino Icons font to your application.

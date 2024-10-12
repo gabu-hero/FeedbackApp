@@ -1,3 +1,4 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/facultylogin.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ class DepartmentPageFaculty extends StatefulWidget {
 }
 
 class _DepartmentPageState extends State<DepartmentPageFaculty> {
+  final AppwriteService as = AppwriteService();
+  late int fdeptid;
   String? selectedDepartment;
   final List<String> departments = [
     'Civil Engineering',
@@ -63,10 +66,10 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                   SizedBox(height: 10),
                   DropdownButtonFormField<String>(
                     value: selectedDepartment,
-                    hint: Text('Select Faculty '),
+                    hint: Text('Select Department '),
                     onChanged: (String? newValue) {
                       setState(() {
-                        selectedDepartment = newValue;
+                        selectedDepartment = newValue.toString();
                       });
                     },
                     items: departments
@@ -86,19 +89,16 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                   SizedBox(height: 55),
                   Buttons(
                     text: 'Submit',
-                    onPressed: () {
-                      if (selectedDepartment != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FacultyLoginPage()),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('Please select your department')),
-                        );
-                      }
+                    onPressed: () async {
+                      fdeptid =
+                          await as.getDepartmentIdByName(selectedDepartment);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                FacultyLoginPage(deptidf: fdeptid)),
+                      );
                     },
                   )
                 ],
