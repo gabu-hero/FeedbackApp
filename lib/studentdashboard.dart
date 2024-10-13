@@ -4,6 +4,8 @@ import 'package:feedback_app/profilepage.dart';
 import 'package:flutter/material.dart';
 
 class Studentdashboard extends StatelessWidget {
+  final int stdDept;
+  Studentdashboard({required this.stdDept});
   final Color customcolor1 = const Color(0xff2e73ae);
   final Color customcolor2 = Colors.white;
 
@@ -45,7 +47,7 @@ class Studentdashboard extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Facultyfeedbackform()),
+                            builder: (context) => Facultyfeedbackform(stdgfDept : stdDept)),
                       );
                     },
                   ),

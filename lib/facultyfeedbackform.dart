@@ -1,23 +1,40 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:flutter/material.dart';
 
 class Facultyfeedbackform extends StatefulWidget {
+  final int stdgfDept;
+  Facultyfeedbackform({required this.stdgfDept});
   @override
-  _FacultyfeedbackformState createState() => _FacultyfeedbackformState();
+  _FacultyfeedbackformState createState() => _FacultyfeedbackformState(fffsdeptId: stdgfDept);
 }
 
 class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
+  final int fffsdeptId;
+  _FacultyfeedbackformState ({required this.fffsdeptId});
   // Controllers for input fields
+  AppwriteService as = AppwriteService();
   final _programmeNameController = TextEditingController();
   final _courseCodeController = TextEditingController();
   final _courseTitleController = TextEditingController();
   final _suggestionsController = TextEditingController();
   Color buttoncolor = Color(0xff2e73ae);
   String? selectedFaculty;
-  final List<String> faculty = [
-    'A',
-    'B',
-    'C',
-  ];
+   late final List<String> faculty;
+
+   @override
+  void initState() {
+  
+    _loadFaculty();  // Call the async method inside initState
+  }
+
+  Future<void> _loadFaculty() async {
+    // Load the faculty asynchronously
+    List<String> fetchedFaculty = await as.getFacultyByDepartment(fffsdeptId);
+    setState(() {
+      faculty = fetchedFaculty;
+    });
+  }
+
 
   // Variables to store feedback ratings
   Map<String, int?> facultyFeedback = {};
@@ -94,10 +111,10 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                   selectedFaculty = newValue;
                 });
               },
-              items: faculty.map<DropdownMenuItem<String>>((String department) {
+              items: faculty.map<DropdownMenuItem<String>> ((String faculty) {
                 return DropdownMenuItem<String>(
-                  value: department,
-                  child: Text(department),
+                  value: faculty,
+                  child: Text(faculty),
                 );
               }).toList(),
               decoration: InputDecoration(
