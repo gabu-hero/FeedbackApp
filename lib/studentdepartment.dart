@@ -73,7 +73,7 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                     value: selectedDepartment,
                     hint: Text('Select Department '),
                     onChanged: (String? nValue) {
-                      setState(() async {
+                      setState(() {
                         selectedDepartment = nValue.toString();
                       });
                     },
