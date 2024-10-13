@@ -78,7 +78,7 @@ class StudentLoginPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Studentdashboard()),
+                            builder: (context) => Studentdashboard(stdDept: sdeptid)),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
