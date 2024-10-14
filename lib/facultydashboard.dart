@@ -4,6 +4,9 @@ import 'package:feedback_app/statisticsdropdownvisual.dart';
 import 'package:flutter/material.dart';
 
 class FacultyDashboard extends StatelessWidget {
+  final String f1username;
+  final String f1userRole;
+  FacultyDashboard({required this.f1username, required this.f1userRole});
   final Color customcolor1 = const Color(0xff2e73ae);
   final Color customcolor2 = Colors.white;
 
@@ -58,16 +61,21 @@ class FacultyDashboard extends StatelessWidget {
                     },
                   ),
                   DashboardButton(
-                      label: 'Profile',
-                      icon: Icons.person,
-                      color: customcolor1,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ProfilePage()),
-                        );
-                      })
+                    label: 'Profile',
+                    icon: Icons.person,
+                    color: customcolor1,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfilePage(
+                            st2Username: f1username,
+                            st2UserRole: f1userRole,
+                          ),
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ),

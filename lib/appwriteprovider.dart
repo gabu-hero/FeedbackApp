@@ -116,20 +116,98 @@ class AppwriteService {
   }
 
   //inputing list of faculty names through departmentID
-  Future<List<String>> getFacultyByDepartment( int departmentId) async {
+  Future<List<String>> getFacultyByDepartment(int departmentId) async {
     try {
       var response = await database.listDocuments(
         databaseId: '67063b0100053a7a4f6b',
-        collectionId: '67063b2e001e51be5681',
+        collectionId: '67063b2e001e51be5681', //Faculty Table
         queries: [Query.equal('faculty_department', departmentId)],
       );
 
       // Extract faculty names from the response
-      List<String> facultyNames = response.documents.map((doc) => doc.data['faculty_name'].toString()).toList();
+      List<String> facultyNames = response.documents
+          .map((doc) => doc.data['faculty_name'].toString())
+          .toList();
       return facultyNames;
     } catch (e) {
       print('Error fetching faculty: $e');
       return [];
+    }
+  }
+
+//Verifying Email by using username
+  Future<bool> verifyEmail(
+      String gvnUserName, String userRole, String gvnEmail) async {
+    try {
+      if (userRole == 'Student') {
+        final studentemailResponse = await database.listDocuments(
+            databaseId: '67063b0100053a7a4f6b',
+            collectionId: '67063b2600143fa8cd34',
+            queries: [Query.equal('enrollment_no', gvnUserName)]);
+        if (studentemailResponse.documents.isNotEmpty) {
+          final dbUser = studentemailResponse.documents.first;
+          final email = dbUser.data['stud_e_mail'].toString();
+          if (gvnEmail == email) {
+            print('E-mail Verification done Successfully.');
+            return true;
+          } else {
+            print('Username and E-mail doesnt match');
+            return false;
+          }
+        } else {
+          print('Incorrect UserName');
+          return false;
+        }
+      } else {
+        final facultyemailResponse = await database.listDocuments(
+            databaseId: '67063b0100053a7a4f6b',
+            collectionId: '67063b2e001e51be5681',
+            queries: [Query.equal('faculty_id', gvnUserName)]);
+        if (facultyemailResponse.documents.isNotEmpty) {
+          final dbUser = facultyemailResponse.documents.first;
+          final email = dbUser.data['faculty_email'].toString();
+          if (gvnEmail == email) {
+            print('E-mail Verification done Successfully.');
+            return true;
+          } else {
+            print('Username and E-mail doesnt match');
+            return false;
+          }
+        } else {
+          print('Incorrect UserName');
+          return false;
+        }
+      }
+    } catch (Exception) {
+      print('Error Verifying E-mail: $Exception');
+      return false;
+    }
+  }
+
+  //Resetting Password by using UserName
+  Future<bool> resetPassword(String rpusername, String rpPassword) async {
+    try {
+      final rpResponse = await database.listDocuments(
+          databaseId: '67063b0100053a7a4f6b',
+          collectionId: '67063b70002a8f541a52',
+          queries: [Query.equal('username', rpusername)]);
+      if (rpResponse.documents.isNotEmpty) {
+        final userDoc = rpResponse.documents.first;
+        final userID = userDoc.$id;
+        await database.updateDocument(
+            databaseId: '67063b0100053a7a4f6b',
+            collectionId: '67063b70002a8f541a52',
+            documentId: userID,
+            data: {'password': rpPassword});
+        print('Password Updated Successfully');
+        return true;
+      } else {
+        print('Could not resetthe password');
+        return false;
+      }
+    } catch (Exception) {
+      print('Could not reset the password ;$Exception');
+      return false;
     }
   }
 }

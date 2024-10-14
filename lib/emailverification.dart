@@ -1,6 +1,14 @@
+import 'package:feedback_app/appwriteprovider.dart';
+import 'package:feedback_app/buttons.dart';
+import 'package:feedback_app/passwordresetpage.dart';
 import 'package:flutter/material.dart';
 
 class EmailVerificationPage extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final String evusername;
+  final String evUserRole;
+  EmailVerificationPage({required this.evusername, required this.evUserRole});
+  AppwriteService asev = AppwriteService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,27 +29,47 @@ class EmailVerificationPage extends StatelessWidget {
             // Expanded to push the TextField to the vertical center
             Expanded(
               child: Center(
-                child: buildTextField('Enter Your Email'), // Center the text field
+                child: TextField(
+                  controller:
+                      emailController, // Use the controller you already defined
+                  decoration: InputDecoration(
+                    hintText: 'Enter Your Email', // Set the hint text here
+                    border:
+                        OutlineInputBorder(), // Optional: add a border to the TextField
+                    filled: true, // Optional: add background color
+                    fillColor: Colors.white, // Optional: background color
+                  ),
+                ),
+                // Center the text field
               ),
             ),
             // Spacer to push the button to the bottom
             SizedBox(
-              width: 400, // Set the width of the button
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF2e73ae), // Button color
-                  padding: EdgeInsets.symmetric(vertical: 15), // Button height
-                ),
-                onPressed: () {
-                  // Handle submission
+              child: Buttons(
+                text: 'Verify',
+                onPressed: () async {
+                  final recEmail = emailController.text;
+                  final isValid =
+                      await asev.verifyEmail(evusername, evUserRole, recEmail);
+
+                  if (isValid) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('E-mail Verification Successful ')),
+                    );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PasswordResetPage(
+                                prpuser: evusername,
+                              )),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Please Enter correct E-mail')),
+                    );
+                  }
                 },
-                child: Text(
-                  'Submit',
-                  style: TextStyle(
-                    color: Colors.white, // Text color
-                    fontSize: 16.0, // Text size
-                  ),
-                ),
               ),
             ),
             SizedBox(height: 20), // Optional space at the bottom
@@ -52,15 +80,4 @@ class EmailVerificationPage extends StatelessWidget {
   }
 
   // Helper method to create input field
-  Widget buildTextField(String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
-      child: TextField(
-        decoration: InputDecoration(
-          labelText: label,
-          border: OutlineInputBorder(),
-        ),
-      ),
-    );
-  }
 }

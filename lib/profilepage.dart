@@ -1,9 +1,14 @@
 import 'package:feedback_app/buttons.dart';
+import 'package:feedback_app/emailverification.dart';
 import 'package:feedback_app/mainloginpage.dart';
 import 'package:feedback_app/passwordresetpage.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
+  final String st2Username;
+  final String st2UserRole;
+  const ProfilePage(
+      {super.key, required this.st2Username, required this.st2UserRole});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +54,11 @@ class ProfilePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => PasswordResetPage()),
+                  MaterialPageRoute(
+                      builder: (context) => EmailVerificationPage(
+                            evusername: st2Username,
+                            evUserRole: st2UserRole,
+                          )),
                 );
               },
               child: Text(
