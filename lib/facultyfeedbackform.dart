@@ -5,12 +5,13 @@ class Facultyfeedbackform extends StatefulWidget {
   final int stdgfDept;
   Facultyfeedbackform({required this.stdgfDept});
   @override
-  _FacultyfeedbackformState createState() => _FacultyfeedbackformState(fffsdeptId: stdgfDept);
+  _FacultyfeedbackformState createState() =>
+      _FacultyfeedbackformState(fffsdeptId: stdgfDept);
 }
 
 class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final int fffsdeptId;
-  _FacultyfeedbackformState ({required this.fffsdeptId});
+  _FacultyfeedbackformState({required this.fffsdeptId});
   // Controllers for input fields
   AppwriteService as = AppwriteService();
   final _programmeNameController = TextEditingController();
@@ -19,12 +20,11 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final _suggestionsController = TextEditingController();
   Color buttoncolor = Color(0xff2e73ae);
   String? selectedFaculty;
-   late final List<String> faculty;
+  late final List<String> faculty = [];
 
-   @override
+  @override
   void initState() {
-  
-    _loadFaculty();  // Call the async method inside initState
+    _loadFaculty(); // Call the async method inside initState
   }
 
   Future<void> _loadFaculty() async {
@@ -34,7 +34,6 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
       faculty = fetchedFaculty;
     });
   }
-
 
   // Variables to store feedback ratings
   Map<String, int?> facultyFeedback = {};
@@ -111,7 +110,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                   selectedFaculty = newValue;
                 });
               },
-              items: faculty.map<DropdownMenuItem<String>> ((String faculty) {
+              items: faculty.map<DropdownMenuItem<String>>((String faculty) {
                 return DropdownMenuItem<String>(
                   value: faculty,
                   child: Text(faculty),
