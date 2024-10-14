@@ -20,7 +20,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final _suggestionsController = TextEditingController();
   Color buttoncolor = Color(0xff2e73ae);
   String? selectedFaculty;
-  late final List<String> faculty = [];
+  late List<String> faculty = [];
 
   @override
   void initState() {
