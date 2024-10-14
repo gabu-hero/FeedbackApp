@@ -1,3 +1,5 @@
+import 'package:feedback_app/addcourse.dart';
+import 'package:feedback_app/addfaculty.dart';
 import 'package:feedback_app/dashboardbutton.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +13,7 @@ class HodDashboard extends StatelessWidget {
       backgroundColor: const Color(0xEBFFFFFF),
       appBar: AppBar(
         title: Text(
-          'HoD Dashboard',
+          'HOD Dashboard',
           style: TextStyle(
             color: customcolor2,
           ),
@@ -64,12 +66,24 @@ class HodDashboard extends StatelessWidget {
                         label: 'Add Faculty',
                         icon: Icons.person_add,
                         color: customcolor1,
-                        onPressed: () {}),
+                        onPressed: () {
+                           Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddFacultyPage()),
+                              );
+                        }),
                     DashboardButton(
                         label: 'Add Courses',
                         icon: Icons.book,
                         color: customcolor1,
-                        onPressed: () {}),
+                        onPressed: () {
+                           Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Addcourse()),
+                        );
+                        }),
                   ],
                 ),
               ),
