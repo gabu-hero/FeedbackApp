@@ -1,45 +1,68 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/profilepage.dart';
 import 'package:flutter/material.dart';
 
 class PasswordResetPage extends StatefulWidget {
+  final String prpuser;
+  PasswordResetPage({required this.prpuser});
   @override
-  _PasswordResetPageState createState() => _PasswordResetPageState();
+  _PasswordResetPageState createState() =>
+      _PasswordResetPageState(rpuserID: prpuser);
 }
 
 class _PasswordResetPageState extends State<PasswordResetPage> {
+  final String rpuserID;
+  _PasswordResetPageState({required this.rpuserID});
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  AppwriteService asrp = AppwriteService();
 
   bool _isLoading = false;
   String _errorMessage = '';
 
-  void _resetPassword() {
+  Future<void> _resetPassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
         _errorMessage = '';
       });
 
-      // Simulate password reset success
-      Future.delayed(Duration(seconds: 2), () {
-        setState(() {
-          _isLoading = false;
+      final isValid =
+          await asrp.resetPassword(rpuserID, _passwordController.text);
+      if (isValid) {
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            _isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Password successfully reset!'),
+          ));
+
+          // Reset form fields
+          _passwordController.clear();
+          _confirmPasswordController.clear();
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ProfilePage(
+                      st2Username: 'None',
+                      st2UserRole: 'None',
+                    )),
+          );
         });
-
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Password successfully reset!'),
+          content: Text('Password could not be reset!'),
         ));
-
-        // Reset form fields
-        _passwordController.clear();
-        _confirmPasswordController.clear();
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProfilePage()),
-        );
-      });
+      }
+      // Simulate password reset success
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Password Could not be reset!'),
+      ));
     }
   }
 

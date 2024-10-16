@@ -104,7 +104,10 @@ class FacultyLoginPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => FacultyDashboard()),
+                            builder: (context) => FacultyDashboard(
+                                  f1username: userName,
+                                  f1userRole: fRole,
+                                )),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

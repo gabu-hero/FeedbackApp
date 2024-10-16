@@ -1,3 +1,4 @@
+import 'package:feedback_app/buttons.dart';
 import 'package:flutter/material.dart';
 
 class AddFacultyPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class AddFacultyPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildTextField('Enter Faculty username'),
+            buildTextField('Enter Faculty Username'),
             buildTextField('Enter Faculty Name'),
             buildTextField('Enter Faculty Email'),
             buildTextField('Enter Department'),
@@ -27,23 +28,9 @@ class AddFacultyPage extends StatelessWidget {
             Spacer(), // Pushes the button to the bottom
             Center(
               child: SizedBox(
-                width: 400, // Set the width of the submit button
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF2E73AE), // Button color
-                    padding: EdgeInsets.symmetric(vertical: 15), // Optional height
-                  ),
-                  onPressed: () {
-                    // Handle submission
-                  },
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      color: Colors.white, // Text color of the button
-                      fontSize: 16.0, // Text size
-                    ),
-                  ),
-                ),
+                 child: Buttons(text: 'Add', onPressed: () async { 
+
+                 },)
               ),
             ),
           ],

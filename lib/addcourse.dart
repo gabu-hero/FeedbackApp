@@ -1,3 +1,4 @@
+import 'package:feedback_app/buttons.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,7 +21,7 @@ class Addcourse extends StatelessWidget {
             children: [
               buildTextField('Course Code'),
               buildTextField('Course Name'),
-              buildTextField('Course Dept'),
+              buildTextField('Course Department'),
               buildTextField('CO1'),
               buildTextField('CO2'),
               buildTextField('CO3'),
@@ -29,28 +30,11 @@ class Addcourse extends StatelessWidget {
               buildTextField('CO6'),
               buildTextField('CO7'),
               buildTextField('CO8'),
-              buildTextField('Department ID'),
               SizedBox(height: 20), // Spacing at the bottom
               Center( // Center the button
-                child: SizedBox(
-                  width: 400, // Set the desired width of the button
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF2E73AE), // Button color
-                      padding: EdgeInsets.symmetric(vertical: 15), // Optional padding for height
-                    ),
-                    onPressed: () {
-                      // Handle submission
-                    },
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white, // Change this to any color you want for the text
-                        fontSize: 16.0, // Optional: Change the text size
-                      ),
-                    ),
-                  ),
-                ),
+                child: Buttons(text: 'Add', onPressed: () async { 
+
+                 },)
               ),
             ],
           ),
