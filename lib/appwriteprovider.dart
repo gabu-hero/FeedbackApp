@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 
 class AppwriteService {
   late Client client;
@@ -210,4 +211,67 @@ class AppwriteService {
       return false;
     }
   }
+
+  // Fetch courses by department
+  Future<List<String>> getCoursesByDepartment(int departmentId) async {
+    try {
+      // Replace 'databaseId' and 'collectionId' with your actual IDs
+      DocumentList result = await database.listDocuments(
+        databaseId: '67063b0100053a7a4f6b', // Replace with your database ID
+        collectionId: '67063b40000de94d73f4', // Replace with your courses collection ID
+        queries: [
+          Query.equal('course_dept', departmentId), // Filter by department ID
+        ],
+      );
+
+    List<String> courseName = result.documents
+          .map((doc) => doc.data['course_name'].toString())
+          .toList();
+          print(courseName);
+      return courseName;
+    } catch (e) {
+      print('Error fetching courses: $e');
+      return [];
+    }
+  }
+
+//getting course code via course name and departmentId
+  Future<String> getCourseCode(String courseName, int departmentId) async {
+    try{
+      print('executing try block : $courseName');
+      print('executing try block : $departmentId');
+      final ccresponse = await database.listDocuments(
+        databaseId: '67063b0100053a7a4f6b', // Replace with your database ID
+        collectionId: '67063b40000de94d73f4', // Replace with your courses collection ID
+        queries: [
+          Query.equal('course_name', courseName), // Filter by department ID
+        ],
+      );
+      if(ccresponse.documents.isEmpty){
+        print('document is empty!');
+      } else{
+         print('document recieved : $ccresponse');
+      }
+     
+      final courseDoc = ccresponse.documents.first;
+      print(courseDoc);
+      int recdeptId = courseDoc.data['course_dept'];
+      print(recdeptId);
+
+      if(recdeptId == departmentId){
+        final coursecode = courseDoc.data['course_code'];
+        print(coursecode);
+        return coursecode;
+      } else{
+        print('could not fetch course code');
+        return '';
+      }
+
+    } catch(e){
+      print('Error fetching course code: $e');
+      return '';
+    }
+  }
+
+  
 }
