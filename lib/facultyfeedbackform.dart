@@ -17,11 +17,11 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final _programmeNameController = TextEditingController();
   final _courseCodeController = TextEditingController();
   final _suggestionsController = TextEditingController();
-  
+
   Color buttoncolor = Color(0xff2e73ae);
   String? selectedFaculty;
-  String? selectedCourse ;
-  String fetchedCourseName='';
+  String? selectedCourse;
+  String fetchedCourseName = '';
 
   late List<String> faculty = [];
   late List<String> courses = [];
@@ -29,7 +29,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   @override
   void initState() {
     _loadFaculty();
-    _loadCourses();  // Load courses based on department
+    _loadCourses(); // Load courses based on department
   }
 
   Future<void> _loadFaculty() async {
@@ -44,17 +44,20 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
     // Load the courses asynchronously
     List<String> fetchedCourses = await as.getCoursesByDepartment(fffsdeptId);
     setState(() {
-      courses = fetchedCourses.toList(); // Assume courses are strings (course names)
+      courses =
+          fetchedCourses.toList(); // Assume courses are strings (course names)
     });
   }
 
   Future<void> _loadCourseCode() async {
-    String fetchedCourseCode = await as.getCourseCode(fetchedCourseName, fffsdeptId);
+    String fetchedCourseCode =
+        await as.getCourseCode(fetchedCourseName, fffsdeptId);
     print(fetchedCourseCode);
-     setState(() {
-    _courseCodeController.text = fetchedCourseCode; // Set the fetched course code
-  });
-  print(_courseCodeController.text);
+    setState(() {
+      _courseCodeController.text =
+          fetchedCourseCode; // Set the fetched course code
+    });
+    print(_courseCodeController.text);
   }
 
   // Variables to store feedback ratings
@@ -111,10 +114,9 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
               ),
             ),
             const SizedBox(height: 20),
-            buildTextField('Programme Name:',
-            enabled: false,
-             _programmeNameController),
-            
+            buildTextField(
+                'Programme Name:', enabled: false, _programmeNameController),
+
             // Course Name Dropdown
             Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
@@ -129,15 +131,14 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
               onChanged: (String? newValue) async {
                 setState(() async {
                   selectedCourse = newValue;
-                   if (newValue != null) {
-      fetchedCourseName = newValue; // Set the selected course name
-      await _loadCourseCode(); // Call the API to load the course code
-    }
-                 
-                
+                  if (newValue != null) {
+                    fetchedCourseName =
+                        newValue; // Set the selected course name
+                    await _loadCourseCode(); // Call the API to load the course code
+                  }
                 });
-                 fetchedCourseName = newValue!;
-                 print(fetchedCourseName);
+                fetchedCourseName = newValue!;
+                print(fetchedCourseName);
               },
               items: courses.map<DropdownMenuItem<String>>((String course) {
                 return DropdownMenuItem<String>(
@@ -146,14 +147,16 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                 );
               }).toList(),
               decoration: InputDecoration(
-                border: OutlineInputBorder(), // Add border similar to text fields
+                border:
+                    OutlineInputBorder(), // Add border similar to text fields
                 filled: true,
                 fillColor: const Color(0xEBFFFFFF),
               ),
             ),
             SizedBox(height: 20),
-            buildTextField('Course Code:', _courseCodeController,enabled:false),
-            
+            buildTextField('Course Code:', _courseCodeController,
+                enabled: false),
+
             Padding(
               padding: const EdgeInsets.only(bottom: 12.0),
               child: Text(
@@ -191,7 +194,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                   color: Colors.redAccent),
               textAlign: TextAlign.left, // Align text to the left
             ),
-            
+
             const SizedBox(height: 8),
             const Text(
               'Faculty Related Feedback',
@@ -238,7 +241,6 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
               enabled: true,
               _suggestionsController,
               maxLines: 5,
-
             ),
             const SizedBox(height: 20),
             Center(
@@ -283,10 +285,9 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
           const SizedBox(height: 8),
           TextField(
             controller: controller,
-            
+            enabled: enabled,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
-               enabled: true,
               filled: true,
               fillColor: Colors.white,
             ),
@@ -340,4 +341,3 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
     );
   }
 }
-
