@@ -3,6 +3,7 @@ import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/passwordresetpage.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class EmailVerificationPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final String evusername;
@@ -78,6 +79,4 @@ class EmailVerificationPage extends StatelessWidget {
       ),
     );
   }
-
-  // Helper method to create input field
 }

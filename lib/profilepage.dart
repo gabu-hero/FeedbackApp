@@ -1,14 +1,51 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/emailverification.dart';
 import 'package:feedback_app/mainloginpage.dart';
 import 'package:feedback_app/passwordresetpage.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   final String st2Username;
   final String st2UserRole;
-  const ProfilePage(
-      {super.key, required this.st2Username, required this.st2UserRole});
+  final String ppdname;
+  ProfilePage({
+    super.key,
+    required this.st2Username,
+    required this.st2UserRole,
+    required this.ppdname,
+  });
+  _ProfilePageState createState() => _ProfilePageState(
+      st2Usernamepp: st2Username,
+      st2UserRolepp: st2UserRole,
+      displayDept: ppdname);
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final String st2Usernamepp;
+  final String st2UserRolepp;
+  String displayDept;
+  AppwriteService aspp = AppwriteService();
+  _ProfilePageState(
+      {required this.st2Usernamepp,
+      required this.st2UserRolepp,
+      required this.displayDept});
+  String displayUserName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchedName();
+  }
+
+  Future<void> _fetchedName() async {
+    String nn = await aspp.getFullName(st2Usernamepp, st2UserRolepp);
+    setState(() {
+      displayUserName = nn;
+    });
+    print('displayname: $displayUserName');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +76,12 @@ class ProfilePage extends StatelessWidget {
 
             // Display User Information
             Text(
-              'Name: ',
+              'Name: $displayUserName ',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(
-              'Department: ',
+              'Department: $displayDept',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 30),
@@ -56,8 +93,8 @@ class ProfilePage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => EmailVerificationPage(
-                            evusername: st2Username,
-                            evUserRole: st2UserRole,
+                            evusername: st2Usernamepp,
+                            evUserRole: st2UserRolepp,
                           )),
                 );
               },

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 class StudentLoginPage extends StatelessWidget {
   final int sdeptid;
   final String sRole;
+  final String dname;
 
-  StudentLoginPage({required this.sdeptid, required this.sRole});
+  StudentLoginPage(
+      {required this.sdeptid, required this.sRole, required this.dname});
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -79,10 +81,10 @@ class StudentLoginPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Studentdashboard(
-                                  stdDept: sdeptid,
-                                  stUsername: userName,
-                                  stRole: sRole,
-                                )),
+                                stdDept: sdeptid,
+                                stUsername: userName,
+                                stRole: sRole,
+                                dnameSDashboard: dname)),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
