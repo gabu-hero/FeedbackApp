@@ -326,7 +326,6 @@ class AppwriteService {
           //document.data['CO7'],
           //document.data['CO8']
         ];
-
         return courseOutcomes;
       } else {
         print('No document found for courseName: $courseName, deptId: $deptId');
@@ -335,6 +334,20 @@ class AppwriteService {
     } catch (e) {
       print('Error fetching course outcomes: $e');
       return [];
+    }
+  }
+  //For storing Feedback from form
+
+  Future<void> submitFeedback(Map<String, dynamic> feedbackData) async {
+    try {
+      await database.createDocument(
+        databaseId: '67063b0100053a7a4f6b',
+        collectionId: '6710c87e001c8d4dfd50', //feedbackCollection
+        documentId: 'unique()', // Your feedback collection ID
+        data: feedbackData,
+      );
+    } catch (e) {
+      throw Exception('Error submitting feedback: $e');
     }
   }
 }
