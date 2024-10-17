@@ -103,7 +103,9 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => FacultyLoginPage(
-                                deptidf: fdeptid, fRole: frecRole)),
+                                deptidf: fdeptid,
+                                fRole: frecRole,
+                                dnamef: selectedDepartment.toString())),
                       );
                     },
                   )

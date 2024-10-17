@@ -78,6 +78,4 @@ class EmailVerificationPage extends StatelessWidget {
       ),
     );
   }
-
-  // Helper method to create input field
 }

@@ -48,8 +48,9 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
             context,
             MaterialPageRoute(
                 builder: (context) => ProfilePage(
-                      st2Username: 'None',
-                      st2UserRole: 'None',
+                      st2Username: '',
+                      st2UserRole: '',
+                      ppdname: '',
                     )),
           );
         });

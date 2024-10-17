@@ -7,8 +7,12 @@ class Studentdashboard extends StatelessWidget {
   final int stdDept;
   final String stUsername;
   final String stRole;
+  final String dnameSDashboard;
   Studentdashboard(
-      {required this.stdDept, required this.stUsername, required this.stRole});
+      {required this.stdDept,
+      required this.stUsername,
+      required this.stRole,
+      required this.dnameSDashboard});
   final Color customcolor1 = const Color(0xff2e73ae);
   final Color customcolor2 = Colors.white;
 
@@ -64,9 +68,9 @@ class Studentdashboard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage(
-                                    st2Username: stUsername,
-                                    st2UserRole: stRole,
-                                  )),
+                                  st2Username: stUsername,
+                                  st2UserRole: stRole,
+                                  ppdname: dnameSDashboard)),
                         );
                       }),
                 ],

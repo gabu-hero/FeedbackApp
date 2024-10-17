@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 class FacultyDashboard extends StatelessWidget {
   final String f1username;
   final String f1userRole;
-  FacultyDashboard({required this.f1username, required this.f1userRole});
+  final String dnameFDashboard;
+  FacultyDashboard(
+      {required this.f1username,
+      required this.f1userRole,
+      required this.dnameFDashboard});
   final Color customcolor1 = const Color(0xff2e73ae);
   final Color customcolor2 = Colors.white;
 
@@ -71,6 +75,7 @@ class FacultyDashboard extends StatelessWidget {
                           builder: (context) => ProfilePage(
                             st2Username: f1username,
                             st2UserRole: f1userRole,
+                            ppdname: dnameFDashboard,
                           ),
                         ),
                       );

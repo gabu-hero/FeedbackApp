@@ -7,11 +7,12 @@ import 'package:flutter/material.dart';
 class FacultyLoginPage extends StatelessWidget {
   final int deptidf;
   final String fRole;
+  final String dnamef;
   final AppwriteService as = AppwriteService();
-
   FacultyLoginPage(
       {required this.deptidf,
-      required this.fRole}); //Received role and dept from FacultyDepartmentPage
+      required this.fRole,
+      required this.dnamef}); //Received role and dept from FacultyDepartmentPage
   final TextEditingController fusernameController = TextEditingController();
   final TextEditingController fpasswordController = TextEditingController();
   @override
@@ -105,9 +106,9 @@ class FacultyLoginPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => FacultyDashboard(
-                                  f1username: userName,
-                                  f1userRole: fRole,
-                                )),
+                                f1username: userName,
+                                f1userRole: fRole,
+                                dnameFDashboard: dnamef)),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
