@@ -54,8 +54,8 @@ class Studentdashboard extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                Facultyfeedbackform(stdgfDept: stdDept)),
+                            builder: (context) => Facultyfeedbackform(
+                                stdgfDept: stdDept, fffdname: dnameSDashboard)),
                       );
                     },
                   ),

@@ -255,9 +255,8 @@ class AppwriteService {
     try {
       // Replace 'databaseId' and 'collectionId' with your actual IDs
       DocumentList result = await database.listDocuments(
-        databaseId: '67063b0100053a7a4f6b', // Replace with your database ID
-        collectionId:
-            '67063b40000de94d73f4', // Replace with your courses collection ID
+        databaseId: '67063b0100053a7a4f6b', //  database ID
+        collectionId: '67063b40000de94d73f4', //  courses table
         queries: [
           Query.equal('course_dept', departmentId), // Filter by department ID
         ],
@@ -300,6 +299,42 @@ class AppwriteService {
     } catch (Exception) {
       print('Could not fetch name: $Exception');
       return '';
+    }
+  }
+
+  //getting course outcomes based on course name and dept id
+  Future<List<String>> getCourseOutcomes(String courseName, int deptId) async {
+    try {
+      // Use the queries to filter by courseName and deptId
+      final response = await database.listDocuments(
+        databaseId: '67063b0100053a7a4f6b',
+        collectionId: '67063b40000de94d73f4', // collection ID
+        queries: [
+          Query.equal('course_name', courseName),
+          Query.equal('course_dept', deptId)
+        ],
+      );
+      if (response.documents.isNotEmpty) {
+        final document = response.documents.first;
+        List<String> courseOutcomes = [
+          document.data['CO1'],
+          document.data['CO2'],
+          document.data['CO3'],
+          document.data['CO4'],
+          document.data['CO5'],
+          document.data['CO6'],
+          //document.data['CO7'],
+          //document.data['CO8']
+        ];
+
+        return courseOutcomes;
+      } else {
+        print('No document found for courseName: $courseName, deptId: $deptId');
+        return [];
+      }
+    } catch (e) {
+      print('Error fetching course outcomes: $e');
+      return [];
     }
   }
 }

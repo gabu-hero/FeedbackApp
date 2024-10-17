@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 
 class Facultyfeedbackform extends StatefulWidget {
   final int stdgfDept;
-  Facultyfeedbackform({required this.stdgfDept});
+  final String fffdname;
+  Facultyfeedbackform({required this.stdgfDept, required this.fffdname});
   @override
   _FacultyfeedbackformState createState() =>
-      _FacultyfeedbackformState(fffsdeptId: stdgfDept);
+      _FacultyfeedbackformState(fffsdeptId: stdgfDept, fffsdname: fffdname);
 }
 
 class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final int fffsdeptId;
-  _FacultyfeedbackformState({required this.fffsdeptId});
+  final String fffsdname;
+  _FacultyfeedbackformState(
+      {required this.fffsdeptId, required this.fffsdname});
   // Controllers for input fields
   AppwriteService as = AppwriteService();
   final _programmeNameController = TextEditingController();
@@ -25,11 +28,15 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
 
   late List<String> faculty = [];
   late List<String> courses = [];
+  late List<String> courseOutcomes = [];
 
   @override
   void initState() {
+    super.initState();
     _loadFaculty();
-    _loadCourses(); // Load courses based on department
+    _loadCourses();
+    _programmeNameController.text =
+        fffsdname; // Load courses based on department
   }
 
   Future<void> _loadFaculty() async {
@@ -58,6 +65,17 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
           fetchedCourseCode; // Set the fetched course code
     });
     print(_courseCodeController.text);
+  }
+
+  Future<void> _loadCourseOutcomes() async {
+    List<String> fetchedCourseOutcomes =
+        await as.getCourseOutcomes(selectedCourse!, fffsdeptId);
+    courseOutcomes = fetchedCourseOutcomes;
+
+    setState(() async {
+      courseOutcomeFeedback = Map.fromIterable(fetchedCourseOutcomes,
+          key: (e) => e, value: (e) => null);
+    });
   }
 
   // Variables to store feedback ratings
@@ -134,7 +152,8 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                   if (newValue != null) {
                     fetchedCourseName =
                         newValue; // Set the selected course name
-                    await _loadCourseCode(); // Call the API to load the course code
+                    await _loadCourseCode();
+                    await _loadCourseOutcomes(); // Call the API to load the course code
                   }
                 });
                 fetchedCourseName = newValue!;
@@ -218,12 +237,14 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            buildRatingSection('CO1', courseOutcomeFeedback),
-            buildRatingSection('CO2', courseOutcomeFeedback),
-            buildRatingSection('CO3', courseOutcomeFeedback),
-            buildRatingSection('CO4', courseOutcomeFeedback),
-            buildRatingSection('CO5', courseOutcomeFeedback),
-            buildRatingSection('CO6', courseOutcomeFeedback),
+            for (String outcome in courseOutcomes)
+              buildRatingSection(outcome, courseOutcomeFeedback),
+            //buildRatingSection('CO1', courseOutcomeFeedback),
+            //buildRatingSection('CO2', courseOutcomeFeedback),
+            //buildRatingSection('CO3', courseOutcomeFeedback),
+            //buildRatingSection('CO4', courseOutcomeFeedback),
+            //buildRatingSection('CO5', courseOutcomeFeedback),
+            //buildRatingSection('CO6', courseOutcomeFeedback),
             const SizedBox(height: 20),
             const Text(
               'Facilities Related to the Course',
