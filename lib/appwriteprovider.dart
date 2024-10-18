@@ -350,4 +350,22 @@ class AppwriteService {
       throw Exception('Error submitting feedback: $e');
     }
   }
+  
+  //fetching data from feedback table
+  Future<List<Map<String, dynamic>>> getFeedbackForCourse(String facultyName,String courseCode) async {
+  try {
+    var result = await database.listDocuments(
+      databaseId: '67063b0100053a7a4f6b',
+      collectionId: '6710c87e001c8d4dfd50', //feedback collection id
+      queries: [Query.equal('feedback_course_code', courseCode),Query.equal('feedback_faculty_name', facultyName)],
+    );
+    
+    return result.documents.map((doc) => doc.data).toList();
+  } catch (e) {
+    print('Error fetching feedback: $e');
+    return [];
+  }
 }
+}
+
+

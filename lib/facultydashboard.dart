@@ -1,3 +1,4 @@
+import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/dashboardbutton.dart';
 import 'package:feedback_app/profilepage.dart';
 import 'package:feedback_app/statisticsdropdownvisual.dart';
@@ -7,6 +8,9 @@ class FacultyDashboard extends StatelessWidget {
   final String f1username;
   final String f1userRole;
   final String dnameFDashboard;
+   String recUsername = '';
+  AppwriteService as = AppwriteService();
+
   FacultyDashboard(
       {required this.f1username,
       required this.f1userRole,
@@ -57,10 +61,11 @@ class FacultyDashboard extends StatelessWidget {
                     icon: Icons.bar_chart,
                     color: customcolor1,
                     onPressed: () {
+                      recUsername = as.getFullName(f1username, f1userRole) as String;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StatisticsDropdownVisual()),
+                            builder: (context) => StatisticsDropdownVisual(facultyName:recUsername)),
                       );
                     },
                   ),

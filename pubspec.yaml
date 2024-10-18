@@ -32,7 +32,9 @@ dependencies:
     sdk: flutter
   appwrite: ^13.0.0
   fl_chart: ^0.55.0 
- 
+  pie_chart: ^5.4.0
+  easy_pie_chart: ^1.0.0
+  flutter_pie_chart: ^0.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
