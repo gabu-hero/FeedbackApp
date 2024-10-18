@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   appwrite: ^13.0.0
+  fl_chart: ^0.55.0 
  
 
 
