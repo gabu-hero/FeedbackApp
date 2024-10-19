@@ -96,6 +96,14 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                   Buttons(
                     text: 'Submit',
                     onPressed: () async {
+                      if(selectedDepartment == null){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Please select a department.'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else{
                       fdeptid =
                           await as.getDepartmentIdByName(selectedDepartment);
 
@@ -107,6 +115,7 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                                 fRole: frecRole,
                                 dnamef: selectedDepartment.toString())),
                       );
+                      }
                     },
                   )
                 ],
