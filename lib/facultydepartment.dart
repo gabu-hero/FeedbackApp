@@ -73,6 +73,7 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                   DropdownButtonFormField<String>(
                     value: selectedDepartment,
                     hint: Text('Select Department '),
+                    dropdownColor: Color(0xEBFFFFFF),
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedDepartment = newValue.toString();

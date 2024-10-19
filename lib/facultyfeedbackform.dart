@@ -147,6 +147,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
             DropdownButtonFormField<String>(
               value: selectedCourse,
               hint: Text('Select Course Name'),
+              dropdownColor: Color(0xEBFFFFFF),
               onChanged: (String? newValue) async {
                 setState(() async {
                   selectedCourse = newValue;
@@ -187,6 +188,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
             DropdownButtonFormField<String>(
               value: selectedFaculty,
               hint: Text('Select Faculty'),
+              dropdownColor: Color(0xEBFFFFFF),
               onChanged: (String? newValue) {
                 setState(() {
                   selectedFaculty = newValue;
