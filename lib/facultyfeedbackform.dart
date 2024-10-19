@@ -1,4 +1,5 @@
 import 'package:feedback_app/appwriteprovider.dart';
+import 'package:feedback_app/studentdashboard.dart';
 import 'package:flutter/material.dart';
 
 class Facultyfeedbackform extends StatefulWidget {
@@ -239,12 +240,6 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
             const SizedBox(height: 8),
             for (String outcome in courseOutcomes)
               buildRatingSection(outcome, courseOutcomeFeedback),
-            //buildRatingSection('CO1', courseOutcomeFeedback),
-            //buildRatingSection('CO2', courseOutcomeFeedback),
-            //buildRatingSection('CO3', courseOutcomeFeedback),
-            //buildRatingSection('CO4', courseOutcomeFeedback),
-            //buildRatingSection('CO5', courseOutcomeFeedback),
-            //buildRatingSection('CO6', courseOutcomeFeedback),
             const SizedBox(height: 20),
             const Text(
               'Facilities Related to the Course',
@@ -271,6 +266,8 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                 child: ElevatedButton(
                   onPressed: () {
                     // Logic to submit the form
+                    _submitFeedback();
+
                     print('Faculty Feedback: $facultyFeedback');
                     print('Course Outcome Feedback: $courseOutcomeFeedback');
                     print('Facilities Feedback: $facilitiesFeedback');
@@ -321,7 +318,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   }
 
   Widget buildRatingSection(String title, Map<String, int?> feedbackMap) {
-    List<String> ratingLabels = ['0', '5', '10'];
+    List<int> ratingLabels = [0, 5, 10];
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12.0),
@@ -342,9 +339,9 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
               Column(
                 children: List.generate(3, (index) {
                   return ListTile(
-                    title: Text(ratingLabels[index]),
+                    title: Text(ratingLabels[index].toString()),
                     leading: Radio<int>(
-                      value: index + 1,
+                      value: ratingLabels[index],
                       groupValue: feedbackMap[title],
                       onChanged: (int? value) {
                         setState(() {
@@ -358,6 +355,112 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _submitFeedback() async {
+    bool _validateForm;
+    Map<String, dynamic> feedbackData = {
+      'dept_id': fffsdeptId,
+      'feedback_course_name': selectedCourse, // From dropdown
+      'feedback_course_code': _courseCodeController.text,
+      'feedback_faculty_name': selectedFaculty, // From dropdown
+      'frf1': facultyFeedback['Coverage of the course curriculum'],
+      'frf2': facultyFeedback['Competence and commitment of faculty'],
+      'frf3': facultyFeedback['Communication of faculty (oral/written)'],
+      'frf4': facultyFeedback['Pace of the content covered by the faculty'],
+      'frf5': facultyFeedback['Relevance of the Content of curriculum'],
+      'co1_F': courseOutcomeFeedback[courseOutcomes[0]], // First course outcome
+      'co2_F':
+          courseOutcomeFeedback[courseOutcomes[1]], // Second course outcome
+      'co3_F': courseOutcomeFeedback[courseOutcomes[2]], // Third course outcome
+      'co4_F':
+          courseOutcomeFeedback[courseOutcomes[3]], // Fourth course outcome
+      'co5_F': courseOutcomeFeedback[courseOutcomes[4]], // Fifth course outcome
+      'co6_F': courseOutcomeFeedback[courseOutcomes[5]], // Sixth course outcome
+      'lab_infra':
+          facilitiesFeedback['Lab/infrastructure facility for the course'],
+      'library':
+          facilitiesFeedback['Availability of the reference books in library'],
+      'suggestion': _suggestionsController.text, // Suggestion text
+    };
+    try {
+      await as.submitFeedback(feedbackData);
+      // Show success message if feedback is submitted successfully
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Feedback submitted successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Studentdashboard(
+                  stdDept: 0,
+                  stUsername: '',
+                  stRole: '',
+                  dnameSDashboard: '',
+                )),
+      );
+      print("Feedback submitted successfully!");
+    } catch (e) {
+      // Optionally handle error case and show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error submitting feedback: $e'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      print("Error submitting feedback: $e");
+    }
+  }
+
+  bool _validateForm() {
+    // Check if course and faculty are selected
+    if (selectedCourse == null || selectedCourse!.isEmpty) {
+      _showErrorMessage('Please select a course.');
+      return false;
+    }
+    if (selectedFaculty == null || selectedFaculty!.isEmpty) {
+      _showErrorMessage('Please select a faculty.');
+      return false;
+    }
+
+    // Check if all faculty feedback ratings are filled
+    for (String key in facultyFeedback.keys) {
+      if (facultyFeedback[key] == null) {
+        _showErrorMessage('Please provide ratings for faculty feedback.');
+        return false;
+      }
+    }
+
+    // Check if all course outcome feedback ratings are filled
+    for (String key in courseOutcomeFeedback.keys) {
+      if (courseOutcomeFeedback[key] == null) {
+        _showErrorMessage('Please provide ratings for course outcomes.');
+        return false;
+      }
+    }
+
+    // Check if facilities feedback ratings are filled
+    for (String key in facilitiesFeedback.keys) {
+      if (facilitiesFeedback[key] == null) {
+        _showErrorMessage('Please provide ratings for facilities feedback.');
+        return false;
+      }
+    }
+
+    // All validations passed
+    return true;
+  }
+
+  void _showErrorMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.redAccent,
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:feedback_app/emailverification.dart';
 import 'package:feedback_app/mainloginpage.dart';
-import 'package:feedback_app/passwordresetpage.dart';
+
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
