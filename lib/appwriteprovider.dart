@@ -350,22 +350,55 @@ class AppwriteService {
       throw Exception('Error submitting feedback: $e');
     }
   }
-  
+
   //fetching data from feedback table
-  Future<List<Map<String, dynamic>>> getFeedbackForCourse(String facultyName,String courseCode) async {
-  try {
-    var result = await database.listDocuments(
-      databaseId: '67063b0100053a7a4f6b',
-      collectionId: '6710c87e001c8d4dfd50', //feedback collection id
-      queries: [Query.equal('feedback_course_code', courseCode),Query.equal('feedback_faculty_name', facultyName)],
-    );
-    
-    return result.documents.map((doc) => doc.data).toList();
-  } catch (e) {
-    print('Error fetching feedback: $e');
-    return [];
+  Future<List<Map<String, dynamic>>> getFeedbackForCourse(
+      String facultyName, String courseCode) async {
+    try {
+      var result = await database.listDocuments(
+        databaseId: '67063b0100053a7a4f6b',
+        collectionId: '6710c87e001c8d4dfd50', //feedback collection id
+        queries: [
+          Query.equal('feedback_course_code', courseCode),
+          Query.equal('feedback_faculty_name', facultyName)
+        ],
+      );
+
+      return result.documents.map((doc) => doc.data).toList();
+    } catch (e) {
+      print('Error fetching feedback: $e');
+      return [];
+    }
+  }
+
+//Statistics Dropdown Visual page getting data
+  Future<List<Map<String, dynamic>>> getCoursesByFacultyName(
+      String facultyName) async {
+    try {
+      final result = await database.listDocuments(
+        databaseId: '67063b0100053a7a4f6b',
+        collectionId: '6710c87e001c8d4dfd50',
+        queries: [
+          Query.equal(
+              'feedback_faculty_name', facultyName), // Query by faculty name
+        ],
+      );
+      if (result.documents.isEmpty) {
+        print("No documents found");
+        return [];
+      }
+      List<Map<String, dynamic>> courses = result.documents.map((doc) {
+        // Checking if the fields exist before returning
+        return {
+          'course_name': doc.data['feedback_course_name'] ?? 'Unknown Course',
+          'course_code': doc.data['feedback_course_code'] ?? 'Unknown Code',
+        };
+      }).toList();
+      print(courses); // For debugging
+      return courses;
+    } catch (e) {
+      print('Error fetching courses: $e');
+      return [];
+    }
   }
 }
-}
-
-

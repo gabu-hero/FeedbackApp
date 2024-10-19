@@ -8,7 +8,7 @@ class FacultyDashboard extends StatelessWidget {
   final String f1username;
   final String f1userRole;
   final String dnameFDashboard;
-   String recUsername = '';
+  String recUsername = '';
   AppwriteService as = AppwriteService();
 
   FacultyDashboard(
@@ -60,12 +60,15 @@ class FacultyDashboard extends StatelessWidget {
                     label: 'View Feedback Graphically',
                     icon: Icons.bar_chart,
                     color: customcolor1,
-                    onPressed: () {
-                      recUsername = as.getFullName(f1username, f1userRole) as String;
+                    onPressed: () async {
+                      recUsername =
+                          await as.getFullName(f1username, f1userRole);
+                      print('Dasboard :$recUsername');
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StatisticsDropdownVisual(facultyName:recUsername)),
+                            builder: (context) =>
+                                StatisticsDropdownVisual(name: recUsername)),
                       );
                     },
                   ),
