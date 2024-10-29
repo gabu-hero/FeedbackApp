@@ -27,7 +27,7 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
   Future<void> _loadData() async {
     try {
       List<Map<String, dynamic>> fetchedCourses =
-          await assdv.getCoursesByFacultyName(sdvfacultyName);
+          await assdv.getCoursesByFacultyName(sdvfacultyName, sdvdeptid);
 
       // Fix: Explicit type declaration
       Map<String, Map<String, dynamic>> uniqueCourses = {};

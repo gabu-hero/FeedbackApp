@@ -75,14 +75,19 @@ class FacultyLoginPage extends StatelessWidget {
                         passWord,
                         deptidf,
                         fRole); //Verifying if all entered data has a exact match in database
-
+                    print(userName);
+                    print(deptidf);
                     if (isValid) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Logged in Successfully ')),
                       );
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HodDashboard()),
+                        MaterialPageRoute(
+                            builder: (context) => HodDashboard(
+                                  hodDusername: userName,
+                                  hosDID: deptidf,
+                                )),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

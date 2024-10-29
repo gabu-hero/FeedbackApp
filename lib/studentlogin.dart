@@ -60,7 +60,7 @@ class StudentLoginPage extends StatelessWidget {
                 labelText: 'Password',
               ),
             ),
-            Spacer(),
+            //Spacer(),
             SizedBox(height: 19),
             Center(
               child: SizedBox(

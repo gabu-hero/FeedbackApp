@@ -72,8 +72,8 @@ class _FeedbackAnalysisPageState extends State<FeedbackAnalysisPage> {
   }
 
   void loadFeedbackData() async {
-    List<Map<String, dynamic>> data =
-        await as.getFeedbackForCourse(fapsfacultyName, fapscourseCode);
+    List<Map<String, dynamic>> data = await as.getFeedbackForCourse(
+        fapsfacultyName, fapscourseCode, fapsdeptID);
     setState(() {
       feedbackData = data;
     });
@@ -155,6 +155,7 @@ class _FeedbackAnalysisPageState extends State<FeedbackAnalysisPage> {
     };
   }
 }
+
 class FeedbackPieChart extends StatelessWidget {
   final String question;
   final Map<String, int> feedbackStats;
