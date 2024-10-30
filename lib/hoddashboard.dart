@@ -1,11 +1,16 @@
 import 'package:feedback_app/addcourse.dart';
 import 'package:feedback_app/addfaculty.dart';
 import 'package:feedback_app/dashboardbutton.dart';
+import 'package:feedback_app/statisticsdropdownvisual.dart';
 import 'package:flutter/material.dart';
 
 class HodDashboard extends StatelessWidget {
   final Color customcolor1 = const Color(0xff2e73ae);
   final Color customcolor2 = Colors.white;
+  String hodDusername;
+  int hosDID;
+
+  HodDashboard({required this.hodDusername, required this.hosDID});
 
   @override
   Widget build(BuildContext context) {
@@ -54,35 +59,37 @@ class HodDashboard extends StatelessWidget {
                       icon: Icons.bar_chart,
                       color: customcolor1,
                       onPressed: () {
-                        // Add functionality here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StatisticsDropdownVisual(
+                                    name: hodDusername,
+                                    dept: hosDID,
+                                  )),
+                        );
                       },
                     ),
-                    DashboardButton(
-                        label: 'Profile',
-                        icon: Icons.person,
-                        color: customcolor1,
-                        onPressed: () {}),
                     DashboardButton(
                         label: 'Add Faculty',
                         icon: Icons.person_add,
                         color: customcolor1,
                         onPressed: () {
-                           Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AddFacultyPage()),
-                              );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddFacultyPage()),
+                          );
                         }),
                     DashboardButton(
                         label: 'Add Courses',
                         icon: Icons.book,
                         color: customcolor1,
                         onPressed: () {
-                           Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Addcourse()),
-                        );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Addcourse()),
+                          );
                         }),
                   ],
                 ),

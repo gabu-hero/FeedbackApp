@@ -72,6 +72,7 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                   DropdownButtonFormField<String>(
                     value: selectedDepartment,
                     hint: Text('Select Department '),
+                    dropdownColor: Color(0xEBFFFFFF),
                     onChanged: (String? nValue) {
                       setState(() {
                         selectedDepartment = nValue.toString();
@@ -96,6 +97,14 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                     text: 'Submit',
                     onPressed: () async {
                       //print(selectedDepartment);
+                      if(selectedDepartment == null){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Please select a department.'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else{
                       deptid =
                           await as.getDepartmentIdByName(selectedDepartment);
                       //print(deptid);
@@ -107,8 +116,11 @@ class _DepartmentPageState extends State<DepartmentPageStudent> {
                                 sRole: srecRole,
                                 dname: selectedDepartment.toString())),
                       );
+                      }
                     },
+                    
                   )
+  
                 ],
               ),
             ),

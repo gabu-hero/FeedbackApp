@@ -9,6 +9,7 @@ class FacultyDashboard extends StatelessWidget {
   final String f1userRole;
   final String dnameFDashboard;
   String recUsername = '';
+  int dID = 0;
   AppwriteService as = AppwriteService();
 
   FacultyDashboard(
@@ -64,11 +65,14 @@ class FacultyDashboard extends StatelessWidget {
                       recUsername =
                           await as.getFullName(f1username, f1userRole);
                       print('Dasboard :$recUsername');
+                      dID = await as.getDepartmentIdByName(dnameFDashboard);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                StatisticsDropdownVisual(name: recUsername)),
+                            builder: (context) => StatisticsDropdownVisual(
+                                  name: recUsername,
+                                  dept: dID,
+                                )),
                       );
                     },
                   ),

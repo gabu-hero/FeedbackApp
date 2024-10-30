@@ -108,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
 
-            Spacer(), // Pushes logout button to the bottom
+            SizedBox(height: 20),
 
             // Logout Button at the Bottom
             Buttons(

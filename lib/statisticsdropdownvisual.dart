@@ -4,14 +4,17 @@ import 'package:flutter/material.dart';
 
 class StatisticsDropdownVisual extends StatefulWidget {
   final String name;
-  StatisticsDropdownVisual({required this.name});
+  final int dept;
+  StatisticsDropdownVisual({required this.name, required this.dept});
   _StatisticsDropdownVisualState createState() =>
-      _StatisticsDropdownVisualState(sdvfacultyName: name);
+      _StatisticsDropdownVisualState(sdvfacultyName: name, sdvdeptid: dept);
 }
 
 class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
   final String sdvfacultyName;
-  _StatisticsDropdownVisualState({required this.sdvfacultyName});
+  final int sdvdeptid;
+  _StatisticsDropdownVisualState(
+      {required this.sdvfacultyName, required this.sdvdeptid});
   List<Map<String, dynamic>> courses = [];
   AppwriteService assdv = AppwriteService();
 
@@ -24,7 +27,7 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
   Future<void> _loadData() async {
     try {
       List<Map<String, dynamic>> fetchedCourses =
-          await assdv.getCoursesByFacultyName(sdvfacultyName);
+          await assdv.getCoursesByFacultyName(sdvfacultyName, sdvdeptid);
 
       // Fix: Explicit type declaration
       Map<String, Map<String, dynamic>> uniqueCourses = {};
@@ -61,6 +64,7 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
           return GestureDetector(
             onTap: () {
               String sdvcourseCode = courses[index]['course_code']!;
+              String sdvcourseName = courses[index]['course_name']!;
               // Navigate to the pie chart page directly
               Navigator.push(
                 context,
@@ -68,13 +72,18 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
                   builder: (context) => FeedbackAnalysisPage(
                     facultyName: sdvfacultyName,
                     courseCode: sdvcourseCode,
+                    deptid: sdvdeptid,
+                    courseName: sdvcourseName,
                   ),
                 ),
               );
             },
             child: Card(
               color: const Color(0xEBFFFFFF),
-              margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0, ),
+              margin: EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
               elevation: 3.0,
               child: Padding(
                 padding: EdgeInsets.all(16.0),
