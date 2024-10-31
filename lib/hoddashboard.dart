@@ -7,10 +7,19 @@ import 'package:flutter/material.dart';
 class HodDashboard extends StatelessWidget {
   final Color customcolor1 = const Color(0xff2e73ae);
   final Color customcolor2 = Colors.white;
-  String hodDusername;
-  int hosDID;
+  
+  // Using final for better performance and clarity
+  final String hodDusername;
+  final int hosDID;
+  final String dnameFDashboard;
+  final String frole;
 
-  HodDashboard({required this.hodDusername, required this.hosDID});
+  HodDashboard({
+    required this.hodDusername,
+    required this.hosDID,
+    required this.dnameFDashboard,
+    required this.frole
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +37,7 @@ class HodDashboard extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        // Wrap everything in SingleChildScrollView
+        // Wrap everything in SingleChildScrollView for better scrolling
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -42,8 +51,7 @@ class HodDashboard extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 30,
-                  physics:
-                      NeverScrollableScrollPhysics(), // Disable GridView scrolling
+                  physics: NeverScrollableScrollPhysics(), // Disable GridView scrolling
                   shrinkWrap: true, // Wraps the grid to its contents
                   children: [
                     DashboardButton(
@@ -51,7 +59,10 @@ class HodDashboard extends StatelessWidget {
                       icon: Icons.note_alt,
                       color: customcolor1,
                       onPressed: () {
-                        // Add functionality here
+                        // Functionality for viewing feedback can be added here
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('View Feedback button pressed')),
+                        );
                       },
                     ),
                     DashboardButton(
@@ -70,27 +81,29 @@ class HodDashboard extends StatelessWidget {
                       },
                     ),
                     DashboardButton(
-                        label: 'Add Faculty',
-                        icon: Icons.person_add,
-                        color: customcolor1,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddFacultyPage()),
-                          );
-                        }),
+                      label: 'Add Faculty',
+                      icon: Icons.person_add,
+                      color: customcolor1,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AddFacultyPage(department: dnameFDashboard, deptid: hosDID, role: frole,)),
+                        );
+                      },
+                    ),
                     DashboardButton(
-                        label: 'Add Courses',
-                        icon: Icons.book,
-                        color: customcolor1,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Addcourse()),
-                          );
-                        }),
+                      label: 'Add Courses',
+                      icon: Icons.book,
+                      color: customcolor1,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Addcourse()),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

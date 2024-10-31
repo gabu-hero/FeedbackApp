@@ -438,4 +438,54 @@ class AppwriteService {
       return [];
     }
   }
+  //Add a user
+  Future<String> addUser(String username, String password, String role) async {
+  try {
+    
+    final userData = {
+      'username': username,
+      'password': password,
+      'role': role // Store passwords securely in production
+    };
+
+    final result = await database.createDocument(
+      databaseId: '67063b0100053a7a4f6b', // Replace with your actual database ID for users
+      collectionId: '67063b70002a8f541a52', // Replace with the actual collection ID for users
+      documentId: 'unique()', // Automatically generates a unique document ID
+      data: userData,
+    );
+
+    print(result);
+    return "User created successfully";
+  } catch (e) {
+    print('Error adding user: $e');
+    return "Error adding user";
+  }
+}
+
+// Add faculty to the database
+  Future<String> addFaculty(String username, String name,String email, int deptid) async {
+    try {
+      
+      final facultyData = {
+        'faculty_id':username,
+        'faculty_name': name,
+        'faculty_department':deptid,
+        'faculty_email': email,
+      };
+
+      final result = await database.createDocument(
+        databaseId: '67063b0100053a7a4f6b', // Replace with your actual database ID
+        collectionId: '67063b2e001e51be5681', // Replace with the actual collection ID for faculty
+        documentId: 'unique()', // Automatically generates a unique document ID
+        data: facultyData,
+      );
+
+      print(result);
+      return "Faculty added successfully";
+    } catch (e) {
+      print('Error adding faculty: $e');
+      return "Error adding faculty";
+    }
+  }
 }
