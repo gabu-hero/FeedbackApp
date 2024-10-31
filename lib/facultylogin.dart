@@ -86,10 +86,11 @@ class FacultyLoginPage extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (context) => HodDashboard(
                                   hodDusername: userName,
-                                  hosDID: deptidf, dnameFDashboard:dnamef,frole: fRole,
+                                  hosDID: deptidf,
+                                  dnameFDashboard: dnamef,
+                                  frole: fRole,
                                 )),
                       );
-                    
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -115,9 +116,7 @@ class FacultyLoginPage extends StatelessWidget {
                                 f1username: userName,
                                 f1userRole: fRole,
                                 dnameFDashboard: dnamef)),
-                                
                       );
-                   
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

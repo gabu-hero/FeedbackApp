@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class AddFacultyPage extends StatelessWidget {
   final AppwriteService appwriteService = AppwriteService();
-  final String department;// Department passed from the previous page
+  final String department; // Department passed from the previous page
   final int deptid; // Department id passed from the previous page
   final String role;
   // Controllers for the input fields
@@ -13,7 +13,8 @@ class AddFacultyPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  AddFacultyPage({required this.department,required this.deptid,required this.role}); 
+  AddFacultyPage(
+      {required this.department, required this.deptid, required this.role});
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +39,13 @@ class AddFacultyPage extends StatelessWidget {
             buildTextField(emailController, 'Enter Faculty Email'),
             // Displaying department in a read-only TextField
             buildReadOnlyTextField(department, 'Department'),
-            buildTextField(passwordController, 'Create Password', isObscure: true),
+            buildTextField(passwordController, 'Create Password',
+                isObscure: true),
             Spacer(), // Pushes the button to the bottom
             Center(
               child: SizedBox(
                 child: Buttons(
-                  text: 'Add', 
+                  text: 'Add',
                   onPressed: () async {
                     // Gather data from the input fields
                     String username = usernameController.text.trim();
@@ -51,25 +53,32 @@ class AddFacultyPage extends StatelessWidget {
                     String email = emailController.text.trim();
                     String password = passwordController.text.trim();
 
-                    if(username.isEmpty || name.isEmpty || email.isEmpty || password.isEmpty){
+                    if (username.isEmpty ||
+                        name.isEmpty ||
+                        email.isEmpty ||
+                        password.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Any field cannot be left empty')),
+                        SnackBar(
+                            content: Text('Any field cannot be left empty')),
                       );
-                    } else{
+                    } else {
+                      appwriteService.addUser(username, password, role);
+                      // Call the addFaculty method from AppwriteService
+                      String response = await appwriteService.addFaculty(
+                        username,
+                        name,
+                        email,
+                        deptid, // Use the passed department directly
+                      );
 
-                 appwriteService.addUser(username, password,role);
-                    // Call the addFaculty method from AppwriteService
-                    String response = await appwriteService.addFaculty(
-                      username,
-                      name,
-                      email,
-                      deptid, // Use the passed department directly
-                    );
-                 
-                    // Show a message based on the response
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(response)),
-                    );
+                      // Show a message based on the response
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(response)),
+                      );
+                      usernameController.clear();
+                      nameController.clear();
+                      emailController.clear();
+                      passwordController.clear();
                     }
                   },
                 ),
@@ -82,7 +91,8 @@ class AddFacultyPage extends StatelessWidget {
   }
 
   // Helper method to create input fields
-  Widget buildTextField(TextEditingController controller, String label, {bool isObscure = false}) {
+  Widget buildTextField(TextEditingController controller, String label,
+      {bool isObscure = false}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: TextField(
@@ -107,7 +117,8 @@ class AddFacultyPage extends StatelessWidget {
           labelText: label,
           border: OutlineInputBorder(),
           filled: true, // Optional: fill background to match other TextFields
-          fillColor: Colors.grey[200], // Optional: background color for the read-only TextField
+          fillColor: Colors.grey[
+              200], // Optional: background color for the read-only TextField
         ),
       ),
     );
