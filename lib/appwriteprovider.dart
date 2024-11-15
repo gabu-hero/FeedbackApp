@@ -1,5 +1,10 @@
+import 'dart:io';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:excel/excel.dart';
+import 'package:file_saver/file_saver.dart';
+import 'package:permission_handler/permission_handler.dart' as perm;
+import 'dart:typed_data';
 
 class AppwriteService {
   late Client client;
@@ -340,20 +345,17 @@ class AppwriteService {
 
   Future<void> submitFeedback(Map<String, dynamic> feedbackData) async {
     try {
-    
       await database.createDocument(
         databaseId: '67063b0100053a7a4f6b',
         collectionId: '6710c87e001c8d4dfd50', //feedbackCollection
         documentId: 'unique()', // Your feedback collection ID
         data: feedbackData,
-       
       );
     } catch (e) {
       throw Exception('Error submitting feedback: $e');
     }
   }
 
-     
   //fetching data from feedback table
   Future<List<Map<String, dynamic>>> getFeedbackForCourse(
       String facultyName, String courseCode, int deptid) async {
@@ -386,25 +388,26 @@ class AppwriteService {
       return [];
     }
   }
+
   // count of feedback submission
   Future<bool> canSubmitFeedback(String enrollmentno, String coursecode) async {
-  try {
-     final documents = await database.listDocuments(
-       databaseId: '67063b0100053a7a4f6b',
-      collectionId: '6710c87e001c8d4dfd50',
-      queries: [
-        Query.equal('enrollment_no', enrollmentno),
-        Query.equal('feedback_course_code', coursecode)
-      ],
-    );
+    try {
+      final documents = await database.listDocuments(
+        databaseId: '67063b0100053a7a4f6b',
+        collectionId: '6710c87e001c8d4dfd50',
+        queries: [
+          Query.equal('enrollment_no', enrollmentno),
+          Query.equal('feedback_course_code', coursecode)
+        ],
+      );
 
-    // Allow submission only if feedback count is less than 2
-    return documents.total < 2;
-  } catch (e) {
-    print('Error fetching feedback count: $e');
-    return false;
+      // Allow submission only if feedback count is less than 2
+      return documents.total < 2;
+    } catch (e) {
+      print('Error fetching feedback count: $e');
+      return false;
+    }
   }
-}
 
 //Statistics Dropdown Visual page getting data
   Future<List<Map<String, dynamic>>> getCoursesByFacultyName(
@@ -416,7 +419,7 @@ class AppwriteService {
           databaseId: '67063b0100053a7a4f6b',
           collectionId: '6710c87e001c8d4dfd50',
           queries: [
-            Query.equal('dept_id', sdvdepartmentid), // Query by faculty name
+            Query.equal('dept_id', sdvdepartmentid), // Query by department ID
           ],
         );
         if (result.documents.isEmpty) {
@@ -424,10 +427,12 @@ class AppwriteService {
           return [];
         }
         List<Map<String, dynamic>> courses = result.documents.map((doc) {
-          // Checking if the fields exist before returning
+          // Returning course details including faculty name
           return {
             'course_name': doc.data['feedback_course_name'] ?? 'Unknown Course',
             'course_code': doc.data['feedback_course_code'] ?? 'Unknown Code',
+            'faculty_name':
+                doc.data['feedback_faculty_name'] ?? 'Unknown Faculty',
           };
         }).toList();
         print(courses); // For debugging
@@ -446,10 +451,12 @@ class AppwriteService {
           return [];
         }
         List<Map<String, dynamic>> courses = result.documents.map((doc) {
-          // Checking if the fields exist before returning
+          // Returning course details including faculty name
           return {
             'course_name': doc.data['feedback_course_name'] ?? 'Unknown Course',
             'course_code': doc.data['feedback_course_code'] ?? 'Unknown Code',
+            'faculty_name':
+                doc.data['feedback_faculty_name'] ?? 'Unknown Faculty',
           };
         }).toList();
         print(courses); // For debugging
@@ -553,6 +560,105 @@ class AppwriteService {
     } catch (e) {
       print('Error adding Course: $e');
       return "Error adding Course";
+    }
+  }
+
+  // Request Storage Permission using the 'perm' prefix
+  Future<void> _requestStoragePermission() async {
+    if (await perm.Permission.storage.request().isGranted) {
+      print("Storage permission granted");
+    } else {
+      throw Exception("Storage permission denied. Cannot export file.");
+    }
+  }
+
+  Future<bool> exportDataToExcel(
+      String facultyname, String coursecode, int deptid) async {
+    try {
+      List<dynamic> row = [];
+      // Step 1: Request permission
+      await _requestStoragePermission();
+
+      // Step 2: Fetch data from Appwrite with filters
+      final response = await database.listDocuments(
+          databaseId: '67063b0100053a7a4f6b',
+          collectionId: '6710c87e001c8d4dfd50',
+          queries: [
+            Query.equal('dept_id', deptid),
+            Query.equal('feedback_course_code', coursecode),
+            Query.equal('feedback_faculty_name', facultyname)
+          ]); //FeedbackCollection
+
+      // Step 3: Create an Excel sheet
+      var excel = Excel.createExcel();
+      Sheet sheetObject = excel['Sheet1'];
+
+      // Step 4: Add Header Row
+      sheetObject.appendRow([
+        'Department',
+        'Enrollment No.',
+        'Feedback Course',
+        'Course Code',
+        'Coverage of the course curriculum',
+        'Competence and commitment of faculty',
+        'Communication',
+        'Pace of content covered ',
+        'Relevance of the Content of Curriculum',
+        'CO1',
+        'CO2',
+        'CO3',
+        'CO4',
+        'CO5',
+        'CO6',
+        'Lab/Infrastructure',
+        'Reference Books',
+        'Suggestions'
+      ]);
+
+      // Step 5: Add Data Rows
+      for (var item in response.documents) {
+        // Create a list of values with null checks
+        row = [
+          item.data['dept_id'] ?? '', // Use empty string if null
+          item.data['enrollment_no'] ?? '',
+          item.data['feedback_course_name'] ?? '',
+          item.data['feedback_course_code'] ?? '',
+          item.data['frf1'] ?? '',
+          item.data['frf2'] ?? '',
+          item.data['frf3'] ?? '',
+          item.data['frf4'] ?? '',
+          item.data['frf5'] ?? '',
+          item.data['co1_F'] ?? '',
+          item.data['co2_F'] ?? '',
+          item.data['co3_F'] ?? '',
+          item.data['co4_F'] ?? '',
+          item.data['co5_F'] ?? '',
+          item.data['co6_F'] ?? '',
+          item.data['lab_infra'] ?? '',
+          item.data['library'] ?? '',
+          item.data['suggestion'] ?? ''
+        ];
+
+        // Filter out null or empty values from the row
+        row = row.where((element) => element != null && element != '').toList();
+
+        // Append the filtered row to the sheet
+        if (row.isNotEmpty) {
+          sheetObject.appendRow(row);
+        }
+      }
+      final excelBytes = Uint8List.fromList(excel.save()!);
+
+      final String result = await FileSaver.instance.saveFile(
+        '$facultyname.xlsx',
+        excelBytes,
+        'xlsx',
+        mimeType: MimeType.MICROSOFTEXCEL
+      );
+      return true;
+    } catch (e) {
+      print('Error exporting data: $e');
+      return false;
     }
   }
 }
