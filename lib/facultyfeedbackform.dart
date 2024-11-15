@@ -5,17 +5,19 @@ import 'package:flutter/material.dart';
 class Facultyfeedbackform extends StatefulWidget {
   final int stdgfDept;
   final String fffdname;
-  Facultyfeedbackform({required this.stdgfDept, required this.fffdname});
+  final String enrollment_no;
+  Facultyfeedbackform({required this.stdgfDept, required this.fffdname, required this.enrollment_no});
   @override
   _FacultyfeedbackformState createState() =>
-      _FacultyfeedbackformState(fffsdeptId: stdgfDept, fffsdname: fffdname);
+      _FacultyfeedbackformState(fffsdeptId: stdgfDept, fffsdname: fffdname, enrollment_no: enrollment_no);
 }
 
 class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final int fffsdeptId;
   final String fffsdname;
+  final enrollment_no;
   _FacultyfeedbackformState(
-      {required this.fffsdeptId, required this.fffsdname});
+      {required this.fffsdeptId, required this.fffsdname, required this.enrollment_no});
   // Controllers for input fields
   AppwriteService as = AppwriteService();
   final _programmeNameController = TextEditingController();
@@ -78,6 +80,8 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
           key: (e) => e, value: (e) => null);
     });
   }
+
+
 
   // Variables to store feedback ratings
   Map<String, int?> facultyFeedback = {};
@@ -362,7 +366,29 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   }
 
   void _submitFeedback() async {
-    bool _validateForm;
+    bool isAllowed = await as.canSubmitFeedback(enrollment_no, _courseCodeController.text);
+
+  if (!isAllowed) {
+    // Display a message indicating the student has reached the submission limit
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Limit Reached"),
+          content: Text("You can only submit feedback twice for this course."),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
     Map<String, dynamic> feedbackData = {
       'dept_id': fffsdeptId,
       'feedback_course_name': selectedCourse, // From dropdown
@@ -386,6 +412,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
       'library':
           facilitiesFeedback['Availability of the reference books in library'],
       'suggestion': _suggestionsController.text, // Suggestion text
+     'enrollment_no': widget.enrollment_no,
     };
     try {
       await as.submitFeedback(feedbackData);

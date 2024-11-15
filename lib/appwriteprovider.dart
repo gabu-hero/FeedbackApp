@@ -340,17 +340,20 @@ class AppwriteService {
 
   Future<void> submitFeedback(Map<String, dynamic> feedbackData) async {
     try {
+    
       await database.createDocument(
         databaseId: '67063b0100053a7a4f6b',
         collectionId: '6710c87e001c8d4dfd50', //feedbackCollection
         documentId: 'unique()', // Your feedback collection ID
         data: feedbackData,
+       
       );
     } catch (e) {
       throw Exception('Error submitting feedback: $e');
     }
   }
 
+     
   //fetching data from feedback table
   Future<List<Map<String, dynamic>>> getFeedbackForCourse(
       String facultyName, String courseCode, int deptid) async {
@@ -383,6 +386,25 @@ class AppwriteService {
       return [];
     }
   }
+  // count of feedback submission
+  Future<bool> canSubmitFeedback(String enrollmentno, String coursecode) async {
+  try {
+     final documents = await database.listDocuments(
+       databaseId: '67063b0100053a7a4f6b',
+      collectionId: '6710c87e001c8d4dfd50',
+      queries: [
+        Query.equal('enrollment_no', enrollmentno),
+        Query.equal('feedback_course_code', coursecode)
+      ],
+    );
+
+    // Allow submission only if feedback count is less than 2
+    return documents.total < 2;
+  } catch (e) {
+    print('Error fetching feedback count: $e');
+    return false;
+  }
+}
 
 //Statistics Dropdown Visual page getting data
   Future<List<Map<String, dynamic>>> getCoursesByFacultyName(
