@@ -80,6 +80,14 @@ class _ProfilePageState extends State<ProfilePage> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
+            // Display User ID based on User Role
+            Text(
+              st2UserRolepp.toLowerCase() == 'student'
+                  ? 'Enrollment Number: $st2Usernamepp'
+                  : 'User ID: $st2Usernamepp',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
             Text(
               'Department: $displayDept',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

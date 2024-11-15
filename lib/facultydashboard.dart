@@ -49,14 +49,14 @@ class FacultyDashboard extends StatelessWidget {
                 crossAxisSpacing: 20,
                 mainAxisSpacing: 30,
                 children: [
-                  DashboardButton(
+                  /*DashboardButton(
                     label: 'View Feedback',
                     icon: Icons.note_alt,
                     color: customcolor1,
                     onPressed: () {
                       // Add functionality here
                     },
-                  ),
+                  ),*/
                   DashboardButton(
                     label: 'View Feedback Graphically',
                     icon: Icons.bar_chart,
