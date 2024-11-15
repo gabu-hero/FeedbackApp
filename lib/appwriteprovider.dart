@@ -650,11 +650,8 @@ class AppwriteService {
       final excelBytes = Uint8List.fromList(excel.save()!);
 
       final String result = await FileSaver.instance.saveFile(
-        '$facultyname.xlsx',
-        excelBytes,
-        'xlsx',
-        mimeType: MimeType.MICROSOFTEXCEL
-      );
+          '$facultyname.xlsx', excelBytes, 'xlsx',
+          mimeType: MimeType.MICROSOFTEXCEL);
       return true;
     } catch (e) {
       print('Error exporting data: $e');
