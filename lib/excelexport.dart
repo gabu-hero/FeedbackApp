@@ -56,6 +56,7 @@ class ExportPage extends StatelessWidget {
             Buttons(
                 text: 'Export as Excel',
                 onPressed: () async {
+                  /*
                   final isValid = await as.exportDataToExcel(
                       facultyName, courseCode, deptidep);
 
@@ -67,7 +68,7 @@ class ExportPage extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Error Exporting File')),
                     );
-                  }
+                  }*/
                 })
           ],
         ),
