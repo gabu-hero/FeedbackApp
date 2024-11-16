@@ -1,5 +1,6 @@
 import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/dashboardbutton.dart';
+import 'package:feedback_app/exportcourselist.dart';
 import 'package:feedback_app/profilepage.dart';
 import 'package:feedback_app/statisticsdropdownvisual.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,25 @@ class FacultyDashboard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => StatisticsDropdownVisual(
+                                  name: recUsername,
+                                  dept: dID,
+                                )),
+                      );
+                    },
+                  ),
+                  DashboardButton(
+                    label: 'Export as Excel',
+                    icon: Icons.grid_on,
+                    color: customcolor1,
+                    onPressed: () async {
+                      recUsername =
+                          await as.getFullName(f1username, f1userRole);
+                      print('Dasboard :$recUsername');
+                      dID = await as.getDepartmentIdByName(dnameFDashboard);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ExportCourseList(
                                   name: recUsername,
                                   dept: dID,
                                 )),

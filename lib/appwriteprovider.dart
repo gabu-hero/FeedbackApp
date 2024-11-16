@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-//import 'package:excel/excel.dart';
-//import 'package:file_saver/file_saver.dart';
-//import 'package:permission_handler/permission_handler.dart' as perm;
+import 'package:excel/excel.dart';
+import 'package:file_saver/file_saver.dart';
+import 'package:permission_handler/permission_handler.dart' as perm;
 import 'dart:typed_data';
 
 class AppwriteService {
@@ -564,15 +564,15 @@ class AppwriteService {
   }
 
   // Request Storage Permission using the 'perm' prefix
-  /*Future<void> _requestStoragePermission() async {
+  Future<void> _requestStoragePermission() async {
     if (await perm.Permission.storage.request().isGranted) {
       print("Storage permission granted");
     } else {
       throw Exception("Storage permission denied. Cannot export file.");
     }
-  }*/
+  }
 
-  /*Future<bool> exportDataToExcel(
+  Future<bool> exportDataToExcel(
       String facultyname, String coursecode, int deptid) async {
     try {
       List<dynamic> row = [];
@@ -647,15 +647,15 @@ class AppwriteService {
           sheetObject.appendRow(row);
         }
       }
-      final excelBytes = Uint8List.fromList(excel.save()!);
+      Uint8List bytes = Uint8List.fromList(excel.save()!);
 
-      //final String result = await FileSaver.instance.saveFile(
-          //'$facultyname.xlsx', excelBytes, 'xlsx',
-          //mimeType: MimeType.MICROSOFTEXCEL);
+      final String result = await FileSaver.instance.saveFile(
+          '$facultyname.xlsx', bytes, 'xlsx',
+          mimeType: MimeType.MICROSOFTEXCEL);
       return true;
     } catch (e) {
       print('Error exporting data: $e');
       return false;
     }
-  }*/
+  }
 }
