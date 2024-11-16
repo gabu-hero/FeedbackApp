@@ -4,6 +4,7 @@ import 'package:feedback_app/facultydashboard.dart';
 import 'package:feedback_app/hoddashboard.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class FacultyLoginPage extends StatelessWidget {
   final int deptidf;
   final String fRole;

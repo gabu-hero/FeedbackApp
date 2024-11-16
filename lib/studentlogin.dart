@@ -2,6 +2,7 @@ import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/studentdashboard.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class StudentLoginPage extends StatelessWidget {
   final int sdeptid;
   final String sRole;
