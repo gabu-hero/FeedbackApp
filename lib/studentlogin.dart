@@ -7,14 +7,18 @@ class StudentLoginPage extends StatelessWidget {
   final String sRole;
   final String dname;
 
-  StudentLoginPage(
-      {required this.sdeptid, required this.sRole, required this.dname});
+  StudentLoginPage({
+    required this.sdeptid,
+    required this.sRole,
+    required this.dname,
+  });
+
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   final AppwriteService as = AppwriteService();
+  bool _obscureText = true; // Variable to control password visibility
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +49,7 @@ class StudentLoginPage extends StatelessWidget {
               color: Color(0xff2e73ae), // Match the app bar color
             ),
             SizedBox(height: 40),
+            // Username TextField
             TextField(
               controller: usernameController,
               decoration: InputDecoration(
@@ -53,15 +58,29 @@ class StudentLoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
+            // Password TextField with Eye Icon
+            StatefulBuilder(
+              builder: (context, setState) {
+                return TextField(
+                  controller: passwordController,
+                  obscureText: _obscureText,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
-            //Spacer(),
             SizedBox(height: 19),
             Center(
               child: SizedBox(
@@ -77,16 +96,18 @@ class StudentLoginPage extends StatelessWidget {
 
                     if (isValid) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Logged in Successfully ')),
+                        SnackBar(content: Text('Logged in Successfully')),
                       );
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Studentdashboard(
-                                stdDept: sdeptid,
-                                stUsername: userName,
-                                stRole: sRole,
-                                dnameSDashboard: dname)),
+                          builder: (context) => Studentdashboard(
+                            stdDept: sdeptid,
+                            stUsername: userName,
+                            stRole: sRole,
+                            dnameSDashboard: dname,
+                          ),
+                        ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

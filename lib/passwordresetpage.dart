@@ -20,6 +20,9 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
   AppwriteService asrp = AppwriteService();
   bool _isLoading = false;
   String _errorMessage = '';
+  bool _obscurePassword = true; // To manage password visibility
+  bool _obscureConfirmPassword = true; // To manage confirm password visibility
+
   Future<void> _resetPassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -54,13 +57,13 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
           content: Text('Password could not be reset!'),
         ));
       }
-      // Simulate password reset success
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Password Could not be reset!'),
       ));
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,36 +92,69 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                   ),
                   SizedBox(height: 20),
 
-                  // Password field
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'New Password',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a new password';
-                      }
-                      return null;
+                  // Password field with Eye icon
+                  StatefulBuilder(
+                    builder: (context, setState) {
+                      return TextFormField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'New Password',
+                          border: OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a new password';
+                          }
+                          return null;
+                        },
+                      );
                     },
                   ),
                   SizedBox(height: 20),
 
-                  // Confirm Password field
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm New Password',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
+                  // Confirm Password field with Eye icon
+                  StatefulBuilder(
+                    builder: (context, setState) {
+                      return TextFormField(
+                        controller: _confirmPasswordController,
+                        obscureText: _obscureConfirmPassword,
+                        decoration: InputDecoration(
+                          labelText: 'Confirm New Password',
+                          border: OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscureConfirmPassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscureConfirmPassword =
+                                    !_obscureConfirmPassword;
+                              });
+                            },
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value != _passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
+                      );
                     },
                   ),
                   SizedBox(height: 20),
@@ -130,11 +166,14 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                       style: TextStyle(color: Colors.red),
                     ),
                   SizedBox(height: 10),
+
                   // Submit button
                   _isLoading
                       ? CircularProgressIndicator()
                       : Buttons(
-                          text: 'Reset Password', onPressed: _resetPassword)
+                          text: 'Reset Password',
+                          onPressed: _resetPassword,
+                        ),
                 ],
               ),
             ),
