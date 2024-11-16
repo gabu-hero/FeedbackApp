@@ -572,90 +572,184 @@ class AppwriteService {
     }
   }
 
-  Future<bool> exportDataToExcel(
-      String facultyname, String coursecode, int deptid) async {
-    try {
-      List<dynamic> row = [];
-      // Step 1: Request permission
-      await _requestStoragePermission();
+  // Future<bool> exportDataToExcel(
+  //     String facultyname, String coursecode, int deptid) async {
+  //   try {
+  //     List<dynamic> row = [];
+  //     // Step 1: Request permission
+  //     await _requestStoragePermission();
 
-      // Step 2: Fetch data from Appwrite with filters
-      final response = await database.listDocuments(
-          databaseId: '67063b0100053a7a4f6b',
-          collectionId: '6710c87e001c8d4dfd50',
-          queries: [
-            Query.equal('dept_id', deptid),
-            Query.equal('feedback_course_code', coursecode),
-            Query.equal('feedback_faculty_name', facultyname)
-          ]); //FeedbackCollection
+  //     // Step 2: Fetch data from Appwrite with filters
+  //     final response = await database.listDocuments(
+  //         databaseId: '67063b0100053a7a4f6b',
+  //         collectionId: '6710c87e001c8d4dfd50',
+  //         queries: [
+  //           Query.equal('dept_id', deptid),
+  //           Query.equal('feedback_course_code', coursecode),
+  //           Query.equal('feedback_faculty_name', facultyname)
+  //         ]); //FeedbackCollection
 
-      // Step 3: Create an Excel sheet
-      var excel = Excel.createExcel();
-      Sheet sheetObject = excel['Sheet1'];
+  //     // Step 3: Create an Excel sheet
+  //     var excel = Excel.createExcel();
+  //     Sheet sheetObject = excel['Sheet1'];
 
-      // Step 4: Add Header Row
-      sheetObject.appendRow([
-        'Department',
-        'Enrollment No.',
-        'Feedback Course',
-        'Course Code',
-        'Coverage of the course curriculum',
-        'Competence and commitment of faculty',
-        'Communication',
-        'Pace of content covered ',
-        'Relevance of the Content of Curriculum',
-        'CO1',
-        'CO2',
-        'CO3',
-        'CO4',
-        'CO5',
-        'CO6',
-        'Lab/Infrastructure',
-        'Reference Books',
-        'Suggestions'
-      ]);
+  //     // Step 4: Add Header Row
+  //     sheetObject.appendRow([
+  //       'Department',
+  //       'Enrollment No.',
+  //       'Feedback Course',
+  //       'Course Code',
+  //       'Coverage of the course curriculum',
+  //       'Competence and commitment of faculty',
+  //       'Communication',
+  //       'Pace of content covered ',
+  //       'Relevance of the Content of Curriculum',
+  //       'CO1',
+  //       'CO2',
+  //       'CO3',
+  //       'CO4',
+  //       'CO5',
+  //       'CO6',
+  //       'Lab/Infrastructure',
+  //       'Reference Books',
+  //       'Suggestions'
+  //     ]);
 
-      // Step 5: Add Data Rows
-      for (var item in response.documents) {
-        // Create a list of values with null checks
-        row = [
-          item.data['dept_id'] ?? '', // Use empty string if null
-          item.data['enrollment_no'] ?? '',
-          item.data['feedback_course_name'] ?? '',
-          item.data['feedback_course_code'] ?? '',
-          item.data['frf1'] ?? '',
-          item.data['frf2'] ?? '',
-          item.data['frf3'] ?? '',
-          item.data['frf4'] ?? '',
-          item.data['frf5'] ?? '',
-          item.data['co1_F'] ?? '',
-          item.data['co2_F'] ?? '',
-          item.data['co3_F'] ?? '',
-          item.data['co4_F'] ?? '',
-          item.data['co5_F'] ?? '',
-          item.data['co6_F'] ?? '',
-          item.data['lab_infra'] ?? '',
-          item.data['library'] ?? '',
-          item.data['suggestion'] ?? ''
-        ];
+  //     // Step 5: Add Data Rows
+  //     for (var item in response.documents) {
+  //       // Create a list of values with null checks
+  //       row = [
+  //         item.data['dept_id'] ?? '', // Use empty string if null
+  //         item.data['enrollment_no'] ?? '',
+  //         item.data['feedback_course_name'] ?? '',
+  //         item.data['feedback_course_code'] ?? '',
+  //         item.data['frf1'] ?? '',
+  //         item.data['frf2'] ?? '',
+  //         item.data['frf3'] ?? '',
+  //         item.data['frf4'] ?? '',
+  //         item.data['frf5'] ?? '',
+  //         item.data['co1_F'] ?? '',
+  //         item.data['co2_F'] ?? '',
+  //         item.data['co3_F'] ?? '',
+  //         item.data['co4_F'] ?? '',
+  //         item.data['co5_F'] ?? '',
+  //         item.data['co6_F'] ?? '',
+  //         item.data['lab_infra'] ?? '',
+  //         item.data['library'] ?? '',
+  //         item.data['suggestion'] ?? ''
+  //       ];
 
-        // Filter out null or empty values from the row
-        row = row.where((element) => element != null && element != '').toList();
+  //       // Filter out null or empty values from the row
+  //       row = row.where((element) => element != null && element != '').toList();
 
-        // Append the filtered row to the sheet
-        if (row.isNotEmpty) {
-          sheetObject.appendRow(row);
-        }
-      }
-      Uint8List bytes = Uint8List.fromList(excel.save()!);
+  //       // Append the filtered row to the sheet
+  //       if (row.isNotEmpty) {
+  //         sheetObject.appendRow(row);
+  //       }
+  //     }
+  //     Uint8List bytes = Uint8List.fromList(excel.save()!);
 
-      final String result = await FileSaver.instance.saveFile(
-          '$facultyname.xlsx', bytes, 'xlsx',
-          mimeType: MimeType.MICROSOFTEXCEL);
-      return true;
-    } catch (e) {
-      print('Error exporting data: $e');
-      return false;
+  //     final String result = await FileSaver.instance.saveFile(
+  //         '$facultyname.xlsx', bytes, 'xlsx',
+  //         mimeType: MimeType.MICROSOFTEXCEL);
+  //     return true;
+  //   } catch (e) {
+  //     print('Error exporting data: $e');
+  //     return false;
+  //   }
+  // }
+
+
+  Future<bool> exportDataToExcel(String facultyname, String coursecode, int deptid) async {
+  try {
+    List<dynamic> row = [];
+
+    // Step 1: Request storage permission
+    await _requestStoragePermission();
+
+    // Step 2: Fetch data from Appwrite
+    final response = await database.listDocuments(
+      databaseId: '67063b0100053a7a4f6b',
+      collectionId: '6710c87e001c8d4dfd50',
+      queries: [
+        Query.equal('dept_id', deptid),
+        Query.equal('feedback_course_code', coursecode),
+        Query.equal('feedback_faculty_name', facultyname),
+      ],
+    );
+
+    // Step 3: Create an Excel sheet
+    var excel = Excel.createExcel();
+    Sheet sheetObject = excel['Sheet1'];
+
+    // Step 4: Add header row
+    sheetObject.appendRow([
+      'Department',
+      'Enrollment No.',
+      'Feedback Course',
+      'Course Code',
+      'Coverage of the course curriculum',
+      'Competence and commitment of faculty',
+      'Communication',
+      'Pace of content covered',
+      'Relevance of the Content of Curriculum',
+      'CO1',
+      'CO2',
+      'CO3',
+      'CO4',
+      'CO5',
+      'CO6',
+      'Lab/Infrastructure',
+      'Reference Books',
+      'Suggestions',
+    ]);
+
+    // Step 5: Add data rows
+    for (var item in response.documents) {
+      row = [
+        item.data['dept_id'] ?? '',
+        item.data['enrollment_no'] ?? '',
+        item.data['feedback_course_name'] ?? '',
+        item.data['feedback_course_code'] ?? '',
+        item.data['frf1'] ?? '',
+        item.data['frf2'] ?? '',
+        item.data['frf3'] ?? '',
+        item.data['frf4'] ?? '',
+        item.data['frf5'] ?? '',
+        item.data['co1_F'] ?? '',
+        item.data['co2_F'] ?? '',
+        item.data['co3_F'] ?? '',
+        item.data['co4_F'] ?? '',
+        item.data['co5_F'] ?? '',
+        item.data['co6_F'] ?? '',
+        item.data['lab_infra'] ?? '',
+        item.data['library'] ?? '',
+        item.data['suggestion'] ?? '',
+      ];
+
+      // Append the row to the sheet (even if it contains empty values for consistency)
+      sheetObject.appendRow(row);
     }
+
+    // Step 6: Save the Excel file
+    final excelBytes = excel.save();
+    if (excelBytes == null) {
+      throw Exception('Failed to save Excel file.');
+    }
+
+    Uint8List bytes = Uint8List.fromList(excelBytes);
+    await FileSaver.instance.saveFile(
+     name: facultyname, // File name without extension
+      bytes: bytes,
+      ext: 'xlsx', // Extension
+      mimeType: MimeType.microsoftExcel,
+    );
+
+    return true;
+  } catch (e, stackTrace) {
+    print('Error exporting data: $e\n$stackTrace');
+    return false;
   }
+}
+
 }
