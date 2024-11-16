@@ -55,6 +55,9 @@ class _ProfilePageState extends State<ProfilePage> {
             style: TextStyle(
               color: Colors.white, // Change this to your desired font color
             )),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xFF2E73AE),
       ),
       body: Padding(

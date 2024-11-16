@@ -26,6 +26,9 @@ class ExportPage extends StatelessWidget {
           'Export as Excel',
           style: TextStyle(color: Colors.white),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xff2e73ae), // Custom app bar color (optional)
       ),
       body: Padding(

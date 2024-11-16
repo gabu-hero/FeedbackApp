@@ -1,15 +1,18 @@
 import 'package:feedback_app/appwriteprovider.dart';
-import 'package:feedback_app/studentdashboard.dart';
+
 import 'package:flutter/material.dart';
 
 class Facultyfeedbackform extends StatefulWidget {
   final int stdgfDept;
   final String fffdname;
   final String enrollment_no;
-  Facultyfeedbackform({required this.stdgfDept, required this.fffdname, required this.enrollment_no});
+  Facultyfeedbackform(
+      {required this.stdgfDept,
+      required this.fffdname,
+      required this.enrollment_no});
   @override
-  _FacultyfeedbackformState createState() =>
-      _FacultyfeedbackformState(fffsdeptId: stdgfDept, fffsdname: fffdname, enrollment_no: enrollment_no);
+  _FacultyfeedbackformState createState() => _FacultyfeedbackformState(
+      fffsdeptId: stdgfDept, fffsdname: fffdname, enrollment_no: enrollment_no);
 }
 
 class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
@@ -17,7 +20,9 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   final String fffsdname;
   final enrollment_no;
   _FacultyfeedbackformState(
-      {required this.fffsdeptId, required this.fffsdname, required this.enrollment_no});
+      {required this.fffsdeptId,
+      required this.fffsdname,
+      required this.enrollment_no});
   // Controllers for input fields
   AppwriteService as = AppwriteService();
   final _programmeNameController = TextEditingController();
@@ -75,13 +80,10 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
         await as.getCourseOutcomes(selectedCourse!, fffsdeptId);
     courseOutcomes = fetchedCourseOutcomes;
 
-    setState(() async {
-      courseOutcomeFeedback = Map.fromIterable(fetchedCourseOutcomes,
-          key: (e) => e, value: (e) => null);
+    setState(() {
+      courseOutcomeFeedback = {for (var e in courseOutcomes) e: null};
     });
   }
-
-
 
   // Variables to store feedback ratings
   Map<String, int?> facultyFeedback = {};
@@ -106,6 +108,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xff2e73ae),
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -366,29 +369,31 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
   }
 
   void _submitFeedback() async {
-    bool isAllowed = await as.canSubmitFeedback(enrollment_no, _courseCodeController.text);
+    bool isAllowed =
+        await as.canSubmitFeedback(enrollment_no, _courseCodeController.text);
 
-  if (!isAllowed) {
-    // Display a message indicating the student has reached the submission limit
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Limit Reached"),
-          content: Text("You can only submit feedback twice for this course."),
-          actions: [
-            TextButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-    return;
-  }
+    if (!isAllowed) {
+      // Display a message indicating the student has reached the submission limit
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Limit Reached"),
+            content:
+                Text("You can only submit feedback twice for this course."),
+            actions: [
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
     Map<String, dynamic> feedbackData = {
       'dept_id': fffsdeptId,
       'feedback_course_name': selectedCourse, // From dropdown
@@ -399,20 +404,31 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
       'frf3': facultyFeedback['Communication of faculty (oral/written)'],
       'frf4': facultyFeedback['Pace of the content covered by the faculty'],
       'frf5': facultyFeedback['Relevance of the Content of curriculum'],
-      'co1_F': courseOutcomeFeedback[courseOutcomes[0]], // First course outcome
-      'co2_F':
-          courseOutcomeFeedback[courseOutcomes[1]], // Second course outcome
-      'co3_F': courseOutcomeFeedback[courseOutcomes[2]], // Third course outcome
-      'co4_F':
-          courseOutcomeFeedback[courseOutcomes[3]], // Fourth course outcome
-      'co5_F': courseOutcomeFeedback[courseOutcomes[4]], // Fifth course outcome
-      'co6_F': courseOutcomeFeedback[courseOutcomes[5]], // Sixth course outcome
+      'co1_F': courseOutcomes.length > 0
+          ? courseOutcomeFeedback[courseOutcomes[0]]
+          : null,
+      'co2_F': courseOutcomes.length > 1
+          ? courseOutcomeFeedback[courseOutcomes[1]]
+          : null,
+      'co3_F': courseOutcomes.length > 2
+          ? courseOutcomeFeedback[courseOutcomes[2]]
+          : null,
+      'co4_F': courseOutcomes.length > 3
+          ? courseOutcomeFeedback[courseOutcomes[3]]
+          : null,
+      'co5_F': courseOutcomes.length > 4
+          ? courseOutcomeFeedback[courseOutcomes[4]]
+          : null,
+      'co6_F': courseOutcomes.length > 5
+          ? courseOutcomeFeedback[courseOutcomes[5]]
+          : null,
+      // Sixth course outcome
       'lab_infra':
           facilitiesFeedback['Lab/infrastructure facility for the course'],
       'library':
           facilitiesFeedback['Availability of the reference books in library'],
       'suggestion': _suggestionsController.text, // Suggestion text
-     'enrollment_no': widget.enrollment_no,
+      'enrollment_no': widget.enrollment_no,
     };
     try {
       await as.submitFeedback(feedbackData);
@@ -423,17 +439,9 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
           backgroundColor: Colors.green,
         ),
       );
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Studentdashboard(
-                  stdDept: 0,
-                  stUsername: '',
-                  stRole: '',
-                  dnameSDashboard: '',
-                )),
-      );
+      Navigator.of(context).pop();
       print("Feedback submitted successfully!");
+      _resetForm();
     } catch (e) {
       // Optionally handle error case and show error message
       ScaffoldMessenger.of(context).showSnackBar(
@@ -456,7 +464,6 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
       _showErrorMessage('Please select a faculty.');
       return false;
     }
-
     // Check if all faculty feedback ratings are filled
     for (String key in facultyFeedback.keys) {
       if (facultyFeedback[key] == null) {
@@ -492,5 +499,18 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
         backgroundColor: Colors.redAccent,
       ),
     );
+  }
+
+  void _resetForm() {
+    setState(() {
+      selectedCourse = null;
+      selectedFaculty = null;
+      _courseCodeController.clear();
+      _suggestionsController.clear();
+      facultyFeedback.clear();
+      courseOutcomeFeedback.clear();
+      facilitiesFeedback.clear();
+      courseOutcomes.clear();
+    });
   }
 }

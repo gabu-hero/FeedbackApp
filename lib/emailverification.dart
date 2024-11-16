@@ -20,6 +20,9 @@ class EmailVerificationPage extends StatelessWidget {
             color: Colors.white, // Text color of the AppBar
           ),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xFF2e73ae), // AppBar color
       ),
       body: Container(

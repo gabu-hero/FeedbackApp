@@ -35,6 +35,7 @@ class HodDashboard extends StatelessWidget {
         centerTitle: false,
         backgroundColor: customcolor1,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         // Wrap everything in SingleChildScrollView for better scrolling

@@ -30,6 +30,7 @@ class Studentdashboard extends StatelessWidget {
         centerTitle: false,
         backgroundColor: customcolor1,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -55,7 +56,9 @@ class Studentdashboard extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Facultyfeedbackform(
-                                stdgfDept: stdDept, fffdname: dnameSDashboard,enrollment_no: stUsername)),
+                                stdgfDept: stdDept,
+                                fffdname: dnameSDashboard,
+                                enrollment_no: stUsername)),
                       );
                     },
                   ),

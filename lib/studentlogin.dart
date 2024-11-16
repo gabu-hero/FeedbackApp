@@ -29,6 +29,7 @@ class StudentLoginPage extends StatelessWidget {
         centerTitle: false, // Align the title to the left
         backgroundColor: Color(0xff2e73ae),
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

@@ -35,6 +35,7 @@ class FacultyDashboard extends StatelessWidget {
         centerTitle: false,
         backgroundColor: customcolor1,
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

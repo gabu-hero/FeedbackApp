@@ -26,10 +26,11 @@ class FacultyLoginPage extends StatelessWidget {
             color: Colors.white, // Set the text color to white
           ),
         ),
-        centerTitle: false, // Align the title to the left
+        centerTitle: false,
+        // Align the title to the left
         backgroundColor: Color(0xff2e73ae),
-
         elevation: 0,
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

@@ -43,6 +43,9 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
             color: Colors.white, // Change this to your desired font color
           ),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xFF2E73AE),
       ),
       body: Column(
@@ -97,25 +100,25 @@ class _DepartmentPageState extends State<DepartmentPageFaculty> {
                   Buttons(
                     text: 'Submit',
                     onPressed: () async {
-                      if(selectedDepartment == null){
+                      if (selectedDepartment == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Please select a department.'),
                             backgroundColor: Colors.red,
                           ),
                         );
-                      } else{
-                      fdeptid =
-                          await as.getDepartmentIdByName(selectedDepartment);
+                      } else {
+                        fdeptid =
+                            await as.getDepartmentIdByName(selectedDepartment);
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FacultyLoginPage(
-                                deptidf: fdeptid,
-                                fRole: frecRole,
-                                dnamef: selectedDepartment.toString())),
-                      );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FacultyLoginPage(
+                                  deptidf: fdeptid,
+                                  fRole: frecRole,
+                                  dnamef: selectedDepartment.toString())),
+                        );
                       }
                     },
                   )

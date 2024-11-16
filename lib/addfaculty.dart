@@ -26,6 +26,9 @@ class AddFacultyPage extends StatelessWidget {
             color: Colors.white, // Text color of the AppBar
           ),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xFF2E73AE), // AppBar color
       ),
       body: Container(

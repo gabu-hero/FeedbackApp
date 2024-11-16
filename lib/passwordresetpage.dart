@@ -18,17 +18,14 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   AppwriteService asrp = AppwriteService();
-
   bool _isLoading = false;
   String _errorMessage = '';
-
   Future<void> _resetPassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
         _errorMessage = '';
       });
-
       final isValid =
           await asrp.resetPassword(rpuserID, _passwordController.text);
       if (isValid) {
@@ -39,11 +36,9 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text('Password successfully reset!'),
           ));
-
           // Reset form fields
           _passwordController.clear();
           _confirmPasswordController.clear();
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -66,7 +61,6 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
       ));
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,7 +130,6 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
                       style: TextStyle(color: Colors.red),
                     ),
                   SizedBox(height: 10),
-
                   // Submit button
                   _isLoading
                       ? CircularProgressIndicator()

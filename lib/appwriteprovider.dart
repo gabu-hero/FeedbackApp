@@ -310,27 +310,28 @@ class AppwriteService {
   //getting course outcomes based on course name and dept id
   Future<List<String>> getCourseOutcomes(String courseName, int deptId) async {
     try {
-      // Use the queries to filter by courseName and deptId
       final response = await database.listDocuments(
         databaseId: '67063b0100053a7a4f6b',
-        collectionId: '67063b40000de94d73f4', // collection ID
+        collectionId: '67063b40000de94d73f4',
         queries: [
           Query.equal('course_name', courseName),
-          Query.equal('course_dept', deptId)
+          Query.equal('course_dept', deptId),
         ],
       );
+
       if (response.documents.isNotEmpty) {
         final document = response.documents.first;
-        List<String> courseOutcomes = [
-          document.data['CO1'],
-          document.data['CO2'],
-          document.data['CO3'],
-          document.data['CO4'],
-          document.data['CO5'],
-          document.data['CO6'],
-          //document.data['CO7'],
-          //document.data['CO8']
-        ];
+        print('Document Data: ${document.data}'); // Debugging line
+
+        // Dynamically find and fetch all CO fields (e.g., CO1, CO2, ...)
+        List<String> courseOutcomes = [];
+        document.data.forEach((key, value) {
+          if (key.startsWith('CO') && value != null && value.isNotEmpty) {
+            courseOutcomes.add(value);
+          }
+        });
+
+        print('Fetched Course Outcomes: $courseOutcomes'); // Debugging line
         return courseOutcomes;
       } else {
         print('No document found for courseName: $courseName, deptId: $deptId');
@@ -341,6 +342,7 @@ class AppwriteService {
       return [];
     }
   }
+
   //For storing Feedback from form
 
   Future<void> submitFeedback(Map<String, dynamic> feedbackData) async {

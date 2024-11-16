@@ -97,6 +97,9 @@ class _FeedbackAnalysisPageState extends State<FeedbackAnalysisPage> {
           'Feedback Analysis',
           style: TextStyle(color: Colors.white),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xff2e73ae),
       ),
       body: feedbackData.isNotEmpty && questions.isNotEmpty

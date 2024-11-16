@@ -25,6 +25,9 @@ class Addcourse extends StatelessWidget {
           'Add Course',
           style: TextStyle(color: Colors.white),
         ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Set the back button color to white
+        ),
         backgroundColor: Color(0xFF2E73AE),
       ),
       body: Container(
