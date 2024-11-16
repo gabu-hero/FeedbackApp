@@ -2,8 +2,6 @@ import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:flutter/material.dart';
 
-// Package to get storage directory
-
 class ExportPage extends StatelessWidget {
   final String facultyName;
   final String courseCode;
@@ -31,46 +29,73 @@ class ExportPage extends StatelessWidget {
         ),
         backgroundColor: Color(0xff2e73ae), // Custom app bar color (optional)
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Display the faculty and course details as text
-            SizedBox(height: 50),
-            Text(
-              'Faculty Name: $facultyName',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Course Code: $courseCode',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Course Name: $courseName',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            // Button to trigger export
-            Buttons(
-                text: 'Export as Excel',
-                onPressed: () async {
-                  final isValid = await as.exportDataToExcel(
-                      facultyName, courseCode, deptidep);
+      body: Center(
+        child: Card(
+          elevation: 8,
+          margin: const EdgeInsets.all(16.0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Display the faculty and course details
+                Text(
+                  'Faculty Name:',
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+                ),
+                Text(
+                  facultyName,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Course Code:',
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+                ),
+                Text(
+                  courseCode,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Course Name:',
+                  style: TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+                ),
+                Text(
+                  courseName,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 30),
+                // Button to trigger export
+                Center(
+                  child: Buttons(
+                    text: 'Export as Excel',
+                    onPressed: () async {
+                      final isValid = await as.exportDataToExcel(
+                          facultyName, courseCode, deptidep);
 
-                  if (isValid) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(' File Exported Successfully')),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Error Exporting File')),
-                    );
-                  }
-                })
-          ],
+                      if (isValid) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('File Exported Successfully')),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error Exporting File')),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -18,68 +18,74 @@ class Studentdashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xEBFFFFFF),
-      appBar: AppBar(
-        title: Text(
-          'Student Dashboard',
-          style: TextStyle(
-            color: customcolor2,
+    return WillPopScope(
+      onWillPop: () async {
+        // Return false to disable the system back button
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xEBFFFFFF),
+        appBar: AppBar(
+          title: Text(
+            'Student Dashboard',
+            style: TextStyle(
+              color: customcolor2,
+            ),
           ),
+          centerTitle: false,
+          backgroundColor: customcolor1,
+          elevation: 0,
+          automaticallyImplyLeading: false,
         ),
-        centerTitle: false,
-        backgroundColor: customcolor1,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 40),
-            Container(
-              width: 500,
-              child: GridView.count(
-                shrinkWrap: true,
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 30,
-                children: [
-                  DashboardButton(
-                    label: 'Give Feedback',
-                    icon: Icons.note_alt,
-                    color: customcolor1,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Facultyfeedbackform(
-                                stdgfDept: stdDept,
-                                fffdname: dnameSDashboard,
-                                enrollment_no: stUsername)),
-                      );
-                    },
-                  ),
-                  DashboardButton(
-                      label: 'Profile',
-                      icon: Icons.person,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 40),
+              Container(
+                width: 500,
+                child: GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 30,
+                  children: [
+                    DashboardButton(
+                      label: 'Give Feedback',
+                      icon: Icons.note_alt,
                       color: customcolor1,
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ProfilePage(
-                                  st2Username: stUsername,
-                                  st2UserRole: stRole,
-                                  ppdname: dnameSDashboard)),
+                              builder: (context) => Facultyfeedbackform(
+                                  stdgfDept: stdDept,
+                                  fffdname: dnameSDashboard,
+                                  enrollment_no: stUsername)),
                         );
-                      }),
-                ],
+                      },
+                    ),
+                    DashboardButton(
+                        label: 'Profile',
+                        icon: Icons.person,
+                        color: customcolor1,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfilePage(
+                                    st2Username: stUsername,
+                                    st2UserRole: stRole,
+                                    ppdname: dnameSDashboard)),
+                          );
+                        }),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
