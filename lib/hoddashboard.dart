@@ -1,6 +1,7 @@
 import 'package:feedback_app/addcourse.dart';
 import 'package:feedback_app/addfaculty.dart';
 import 'package:feedback_app/dashboardbutton.dart';
+import 'package:feedback_app/exportcourselist.dart';
 import 'package:feedback_app/statisticsdropdownvisual.dart';
 import 'package:flutter/material.dart';
 
@@ -75,6 +76,21 @@ class HodDashboard extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => StatisticsDropdownVisual(
+                                    name: hodDusername,
+                                    dept: hosDID,
+                                  )),
+                        );
+                      },
+                    ),
+                    DashboardButton(
+                      label: 'Export as Excel',
+                      icon: Icons.grid_on,
+                      color: customcolor1,
+                      onPressed: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ExportCourseList(
                                     name: hodDusername,
                                     dept: hosDID,
                                   )),

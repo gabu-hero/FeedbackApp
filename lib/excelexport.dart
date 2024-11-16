@@ -1,10 +1,8 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/buttons.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:io'; // File handling package
-import 'package:path_provider/path_provider.dart'; // Package to get storage directory
+// Package to get storage directory
 
 class ExportPage extends StatelessWidget {
   final String facultyName;

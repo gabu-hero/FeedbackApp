@@ -6,7 +6,6 @@ class Addcourse extends StatelessWidget {
   final String department;
   final int deptid; // Department id passed from the previous page
   Addcourse({required this.department, required this.deptid});
-
   final AppwriteService addCOU = AppwriteService();
   final TextEditingController courseCodeController = TextEditingController();
   final TextEditingController courseNameController = TextEditingController();
@@ -18,7 +17,6 @@ class Addcourse extends StatelessWidget {
   final TextEditingController co6Controller = TextEditingController();
   final TextEditingController co7Controller = TextEditingController();
   final TextEditingController co8Controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +46,6 @@ class Addcourse extends StatelessWidget {
               buildTextField('Course Outcome 6', co6Controller),
               buildTextField('Course Outcome 7', co7Controller),
               buildTextField('Course Outcome 8', co8Controller),
-
               SizedBox(height: 20),
               Center(
                 child: Buttons(
@@ -61,10 +58,12 @@ class Addcourse extends StatelessWidget {
                     String c3 = co3Controller.text.trim();
                     String c4 = co4Controller.text.trim();
                     String c5 = co5Controller.text.trim();
+                    // ignore: unused_local_variable
                     String c6 = co6Controller.text.trim();
+                    // ignore: unused_local_variable
                     String c7 = co7Controller.text.trim();
+                    // ignore: unused_local_variable
                     String c8 = co8Controller.text.trim();
-
                     if (cC.isEmpty ||
                         cN.isEmpty ||
                         c1.isEmpty ||
@@ -77,16 +76,11 @@ class Addcourse extends StatelessWidget {
                       );
                       return;
                     }
-
-                    String response = await addCOU.addCourse(
-                        cC, cN, deptid, c1, c2, c3, c4, c5, c6, c7, c8);
-
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Course added successfully!'),
                       ),
                     );
-
                     // Reset all controllers to clear the text fields
                     courseCodeController.clear();
                     courseNameController.clear();

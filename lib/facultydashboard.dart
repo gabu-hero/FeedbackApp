@@ -5,6 +5,7 @@ import 'package:feedback_app/profilepage.dart';
 import 'package:feedback_app/statisticsdropdownvisual.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class FacultyDashboard extends StatelessWidget {
   final String f1username;
   final String f1userRole;

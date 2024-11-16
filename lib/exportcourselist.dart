@@ -1,6 +1,5 @@
 import 'package:feedback_app/appwriteprovider.dart';
 import 'package:feedback_app/excelexport.dart';
-import 'package:feedback_app/feedbackanalysispage.dart';
 import 'package:flutter/material.dart';
 
 class ExportCourseList extends StatefulWidget {
@@ -18,7 +17,6 @@ class _ExportCourseListState extends State<ExportCourseList> {
       {required this.eclfacultyName, required this.ecldeptid});
   List<Map<String, dynamic>> courses = [];
   AppwriteService assdv = AppwriteService();
-
   @override
   void initState() {
     super.initState();
@@ -29,15 +27,12 @@ class _ExportCourseListState extends State<ExportCourseList> {
     try {
       List<Map<String, dynamic>> fetchedCourses =
           await assdv.getCoursesByFacultyName(eclfacultyName, ecldeptid);
-
       // Fix: Explicit type declaration
       Map<String, Map<String, dynamic>> uniqueCourses = {};
-
       for (var course in fetchedCourses) {
         uniqueCourses[course['course_code']] =
             course; // Use the course_code as the key
       }
-
       // Update state only once after processing
       setState(() {
         courses = uniqueCourses.values.toList();
@@ -72,7 +67,7 @@ class _ExportCourseListState extends State<ExportCourseList> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ExportPage(
-                    facultyName: eclfacultyName,
+                    facultyName: ecl1FacultyName,
                     courseCode: ecl1courseCode,
                     deptidep: ecldeptid,
                     courseName: ecl1courseName,

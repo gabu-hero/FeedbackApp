@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.feedback_app.file_saver"
+    namespace = "com.example.feedback_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
