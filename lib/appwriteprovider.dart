@@ -126,14 +126,15 @@ class AppwriteService {
     try {
       var response = await database.listDocuments(
         databaseId: '67063b0100053a7a4f6b',
-        collectionId: '67063b2e001e51be5681', //Faculty Table
+        collectionId: '67063b2e001e51be5681', // Faculty Table
         queries: [Query.equal('faculty_department', departmentId)],
       );
-
-      // Extract faculty names from the response
+      // Extract and filter faculty names, excluding those prefixed with "HOD"
       List<String> facultyNames = response.documents
           .map((doc) => doc.data['faculty_name'].toString())
+          .where((name) => !name.startsWith('HOD'))
           .toList();
+
       return facultyNames;
     } catch (e) {
       print('Error fetching faculty: $e');
