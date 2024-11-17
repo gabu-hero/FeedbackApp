@@ -376,9 +376,9 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Limit Reached"),
+            title: Text("Limit Reached",style: TextStyle(color: Colors.red)),
             content:
-                Text("You can only submit feedback twice for this course."),
+                Text("You can only submit feedback twice for this course.",style: TextStyle(color: Colors.red)),
             actions: [
               TextButton(
                 child: Text("OK"),
