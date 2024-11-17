@@ -56,18 +56,6 @@ class HodDashboard extends StatelessWidget {
                       NeverScrollableScrollPhysics(), // Disable GridView scrolling
                   shrinkWrap: true, // Wraps the grid to its contents
                   children: [
-                    /*DashboardButton(
-                      label: 'View Feedback',
-                      icon: Icons.note_alt,
-                      color: customcolor1,
-                      onPressed: () {
-                        // Functionality for viewing feedback can be added here
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text('View Feedback button pressed')),
-                        );
-                      },
-                    ),*/
                     DashboardButton(
                       label: 'View Feedback Graphically',
                       icon: Icons.bar_chart,

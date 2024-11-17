@@ -427,16 +427,37 @@ class AppwriteService {
           print("No documents found");
           return [];
         }
-        List<Map<String, dynamic>> courses = result.documents.map((doc) {
-          return {
+        Map<String, List<Map<String, dynamic>>> groupedCourses = {};
+
+        for (var doc in result.documents) {
+          String facultyName =
+              doc.data['feedback_faculty_name'] ?? 'Unknown Faculty';
+          Map<String, dynamic> course = {
             'course_name': doc.data['feedback_course_name'] ?? 'Unknown Course',
             'course_code': doc.data['feedback_course_code'] ?? 'Unknown Code',
-            'faculty_name':
-                doc.data['feedback_faculty_name'] ?? 'Unknown Faculty',
           };
-        }).toList();
-        print(courses); // For debugging
-        return courses;
+
+          // Group courses by faculty name
+          if (groupedCourses.containsKey(facultyName)) {
+            groupedCourses[facultyName]!.add(course);
+          } else {
+            groupedCourses[facultyName] = [course];
+          }
+        }
+
+        // Convert grouped data to a list format
+        List<Map<String, dynamic>> coursesList = [];
+        groupedCourses.forEach((facultyName, courses) {
+          for (var course in courses) {
+            coursesList.add({
+              'faculty_name': facultyName,
+              'course_name': course['course_name'],
+              'course_code': course['course_code'],
+            });
+          }
+        });
+        print(coursesList); // For debugging
+        return coursesList;
       } else {
         final result = await database.listDocuments(
           databaseId: '67063b0100053a7a4f6b',

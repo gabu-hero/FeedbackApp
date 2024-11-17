@@ -28,19 +28,19 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
     try {
       List<Map<String, dynamic>> fetchedCourses =
           await assdv.getCoursesByFacultyName(sdvfacultyName, sdvdeptid);
-
-      // Fix: Explicit type declaration
-      Map<String, Map<String, dynamic>> uniqueCourses = {};
-
+      List<Map<String, dynamic>> uniqueCourses = [];
       for (var course in fetchedCourses) {
-        uniqueCourses[course['course_code']] =
-            course; // Use the course_code as the key
+        // Check if the combination of course_code and faculty_name already exists
+        bool exists = uniqueCourses.any((element) =>
+            element['course_code'] == course['course_code'] &&
+            element['faculty_name'] == course['faculty_name']);
+        if (!exists) {
+          uniqueCourses.add(course);
+        }
       }
-
-      // Update state only once after processing
       setState(() {
-        courses = uniqueCourses.values.toList();
-        print(' StatsDV : $courses');
+        courses = uniqueCourses;
+        print('StatsDV : $courses'); // Debug output
       });
     } catch (e) {
       print("Error loading data: $e");
@@ -68,6 +68,7 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
             onTap: () {
               String sdvcourseCode = courses[index]['course_code']!;
               String sdvcourseName = courses[index]['course_name']!;
+
               // Navigate to the pie chart page directly
               Navigator.push(
                 context,
@@ -104,6 +105,14 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
                     SizedBox(height: 4),
                     Text(
                       courses[index]['course_name']!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      courses[index]['faculty_name']!,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
