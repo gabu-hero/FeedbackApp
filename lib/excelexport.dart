@@ -31,6 +31,7 @@ class ExportPage extends StatelessWidget {
       ),
       body: Center(
         child: Card(
+          color: const Color(0xEBFFFFFF),
           elevation: 8,
           margin: const EdgeInsets.all(16.0),
           shape: RoundedRectangleBorder(
@@ -46,7 +47,9 @@ class ExportPage extends StatelessWidget {
                 Text(
                   'Faculty Name:',
                   style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[700]),
                 ),
                 Text(
                   facultyName,
@@ -56,7 +59,9 @@ class ExportPage extends StatelessWidget {
                 Text(
                   'Course Code:',
                   style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[700]),
                 ),
                 Text(
                   courseCode,
@@ -66,7 +71,9 @@ class ExportPage extends StatelessWidget {
                 Text(
                   'Course Name:',
                   style: TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w600, color: Colors.grey[700]),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[700]),
                 ),
                 Text(
                   courseName,

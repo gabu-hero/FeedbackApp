@@ -68,7 +68,6 @@ class _StatisticsDropdownVisualState extends State<StatisticsDropdownVisual> {
             onTap: () {
               String sdvcourseCode = courses[index]['course_code']!;
               String sdvcourseName = courses[index]['course_name']!;
-
               // Navigate to the pie chart page directly
               Navigator.push(
                 context,

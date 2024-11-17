@@ -345,13 +345,12 @@ class AppwriteService {
   }
 
   //For storing Feedback from form
-
   Future<void> submitFeedback(Map<String, dynamic> feedbackData) async {
     try {
       await database.createDocument(
         databaseId: '67063b0100053a7a4f6b',
         collectionId: '6710c87e001c8d4dfd50', //feedbackCollection
-        documentId: 'unique()', // Your feedback collection ID
+        documentId: 'unique()',
         data: feedbackData,
       );
     } catch (e) {

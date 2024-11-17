@@ -274,13 +274,11 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Logic to submit the form
-                    _submitFeedback();
+                    print("Course Outcomes Length: ${courseOutcomes.length}");
+                    print("Course Outcomes: $courseOutcomes");
+                    print("Course Outcome Feedback: $courseOutcomeFeedback");
 
-                    print('Faculty Feedback: $facultyFeedback');
-                    print('Course Outcome Feedback: $courseOutcomeFeedback');
-                    print('Facilities Feedback: $facilitiesFeedback');
-                    print('Suggestions: ${_suggestionsController.text}');
+                    _submitFeedback();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: buttoncolor,
