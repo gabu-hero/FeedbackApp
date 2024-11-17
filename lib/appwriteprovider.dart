@@ -17,7 +17,11 @@ class AppwriteService {
   }
   //USED FOR LOGIN PAGE FOR STUDENT USERS
   Future<bool> verifyUserCredentials(
-      String username, String password, int dId, String Role) async {
+      // ignore: non_constant_identifier_names
+      String username,
+      String password,
+      int dId,
+      String Role) async {
     try {
       final result = await database.listDocuments(
         databaseId: '67063b0100053a7a4f6b',
@@ -34,24 +38,24 @@ class AppwriteService {
         final userDepartment = resultdID.documents.first;
         final storedPassword = userDocument.data['password'];
         final storedRole = userDocument.data['role'];
-        print('Role Received S: $Role');
-        print('Role Received from Database S: $storedRole');
+        //print('Role Received S: $Role');
+        //print('Role Received from Database S: $storedRole');
 
         if ((password == storedPassword) &&
             (userDepartment.data['stud_department'] == dId) &&
             (Role == storedRole)) {
-          print('Logged in Successfully');
+          //print('Logged in Successfully');
           return true;
         } else {
-          print('Invalid Password');
+          //print('Invalid Password');
           return false;
         }
       } else {
-        print(' No user found with the provided username');
+        //print(' No user found with the provided username');
         return false;
       }
-    } catch (Exception) {
-      print(' Error validating credentials :$Exception');
+    } on Exception {
+      //print(' Error validating credentials :$Exception');
       return false;
     }
   }
@@ -68,21 +72,25 @@ class AppwriteService {
         ],
       );
       if (response.documents.isNotEmpty) {
-        print(response);
+        //print(response);
         return response
             .documents.first.data['department_id']; // Return the department ID
       } else {
         return 0; // No department found with the given name
       }
     } catch (e) {
-      print('Error fetching department ID: $e');
+      //print('Error fetching department ID: $e');
       return 0;
     }
   }
 
   //USED FOR LOGIN PAGE FOR FACULTY USERS
   Future<bool> verifyUserCredentialsF(
-      String username, String password, int dId, String Role) async {
+      // ignore: non_constant_identifier_names
+      String username,
+      String password,
+      int dId,
+      String Role) async {
     try {
       final result = await database.listDocuments(
         databaseId: '67063b0100053a7a4f6b',
@@ -99,24 +107,24 @@ class AppwriteService {
         final userDepartment = resultdID.documents.first;
         final storedPassword = userDocument.data['password'];
         final storedRole = userDocument.data['role'];
-        print('Role Received F: $Role');
-        print('Role Received from Database F: $storedRole');
+        //print('Role Received F: $Role');
+        //print('Role Received from Database F: $storedRole');
 
         if ((password == storedPassword) &&
             (userDepartment.data['faculty_department'] == dId) &&
             (Role == storedRole)) {
-          print('Logged in Successfully');
+          //print('Logged in Successfully');
           return true;
         } else {
-          print('Invalid Password');
+          //print('Invalid Password');
           return false;
         }
       } else {
-        print(' No user found with the provided username');
+        //print(' No user found with the provided username');
         return false;
       }
-    } catch (Exception) {
-      print(' Error validating credentials :$Exception');
+    } on Exception {
+      //print(' Error validating credentials :$Exception');
       return false;
     }
   }
@@ -137,7 +145,7 @@ class AppwriteService {
 
       return facultyNames;
     } catch (e) {
-      print('Error fetching faculty: $e');
+      //print('Error fetching faculty: $e');
       return [];
     }
   }
@@ -155,14 +163,14 @@ class AppwriteService {
           final dbUser = studentemailResponse.documents.first;
           final email = dbUser.data['stud_e_mail'].toString();
           if (gvnEmail == email) {
-            print('E-mail Verification done Successfully.');
+            //print('E-mail Verification done Successfully.');
             return true;
           } else {
-            print('Username and E-mail doesnt match');
+            //print('Username and E-mail doesnt match');
             return false;
           }
         } else {
-          print('Incorrect UserName');
+          //print('Incorrect UserName');
           return false;
         }
       } else {
@@ -174,19 +182,19 @@ class AppwriteService {
           final dbUser = facultyemailResponse.documents.first;
           final email = dbUser.data['faculty_email'].toString();
           if (gvnEmail == email) {
-            print('E-mail Verification done Successfully.');
+            //print('E-mail Verification done Successfully.');
             return true;
           } else {
-            print('Username and E-mail doesnt match');
+            //print('Username and E-mail doesnt match');
             return false;
           }
         } else {
-          print('Incorrect UserName');
+          //print('Incorrect UserName');
           return false;
         }
       }
-    } catch (Exception) {
-      print('Error Verifying E-mail: $Exception');
+    } on Exception {
+      //print('Error Verifying E-mail: $Exception');
       return false;
     }
   }
@@ -206,14 +214,14 @@ class AppwriteService {
             collectionId: '67063b70002a8f541a52',
             documentId: userID,
             data: {'password': rpPassword});
-        print('Password Updated Successfully');
+        //print('Password Updated Successfully');
         return true;
       } else {
-        print('Could not reset the password');
+        //print('Could not reset the password');
         return false;
       }
-    } catch (Exception) {
-      print('Could not reset the password ;$Exception');
+    } on Exception {
+      //print('Could not reset the password ;$Exception');
       return false;
     }
   }
@@ -221,8 +229,8 @@ class AppwriteService {
   //getting course code via course name and departmentId
   Future<String> getCourseCode(String courseName, int departmentId) async {
     try {
-      print('executing try block : $courseName');
-      print('executing try block : $departmentId');
+      //print('executing try block : $courseName');
+      //print('executing try block : $departmentId');
       final ccresponse = await database.listDocuments(
         databaseId: '67063b0100053a7a4f6b', // Replace with your database ID
         collectionId:
@@ -232,26 +240,26 @@ class AppwriteService {
         ],
       );
       if (ccresponse.documents.isEmpty) {
-        print('document is empty!');
+        //print('document is empty!');
       } else {
-        print('document recieved : $ccresponse');
+        //print('document recieved : $ccresponse');
       }
 
       final courseDoc = ccresponse.documents.first;
-      print(courseDoc);
+      //print(courseDoc);
       int recdeptId = courseDoc.data['course_dept'];
-      print(recdeptId);
+      //print(recdeptId);
 
       if (recdeptId == departmentId) {
         final coursecode = courseDoc.data['course_code'];
-        print(coursecode);
+        //print(coursecode);
         return coursecode;
       } else {
-        print('could not fetch course code');
+        //print('could not fetch course code');
         return '';
       }
     } catch (e) {
-      print('Error fetching course code: $e');
+      //print('Error fetching course code: $e');
       return '';
     }
   }
@@ -270,10 +278,10 @@ class AppwriteService {
       List<String> courseName = result.documents
           .map((doc) => doc.data['course_name'].toString())
           .toList();
-      print(courseName);
+      //print(courseName);
       return courseName;
     } catch (e) {
-      print('Error fetching courses: $e');
+      //print('Error fetching courses: $e');
       return [];
     }
   }
@@ -287,9 +295,9 @@ class AppwriteService {
             collectionId: '67063b2600143fa8cd34', //Students Table
             queries: [Query.equal('enrollment_no', recUserID)]);
         final doc = fnResult.documents.first;
-        print(doc);
+        //print(doc);
         final fullName = doc.data['stud_name'];
-        print(fullName);
+        //print(fullName);
         return fullName;
       } else {
         final fnResult = await database.listDocuments(
@@ -297,13 +305,13 @@ class AppwriteService {
             collectionId: '67063b2e001e51be5681', //Faculty Table
             queries: [Query.equal('faculty_id', recUserID)]);
         final doc = fnResult.documents.first;
-        print(doc);
+        //print(doc);
         final fullName = doc.data['faculty_name'];
-        print(fullName);
+        //print(fullName);
         return fullName;
       }
-    } catch (Exception) {
-      print('Could not fetch name: $Exception');
+    } on Exception {
+      //print('Could not fetch name: $Exception');
       return '';
     }
   }
@@ -322,7 +330,7 @@ class AppwriteService {
 
       if (response.documents.isNotEmpty) {
         final document = response.documents.first;
-        print('Document Data: ${document.data}'); // Debugging line
+        //print('Document Data: ${document.data}'); // Debugging line
 
         // Dynamically find and fetch all CO fields (e.g., CO1, CO2, ...)
         List<String> courseOutcomes = [];
@@ -332,14 +340,14 @@ class AppwriteService {
           }
         });
 
-        print('Fetched Course Outcomes: $courseOutcomes'); // Debugging line
+        //print('Fetched Course Outcomes: $courseOutcomes'); // Debugging line
         return courseOutcomes;
       } else {
-        print('No document found for courseName: $courseName, deptId: $deptId');
+        //print('No document found for courseName: $courseName, deptId: $deptId');
         return [];
       }
-    } catch (e) {
-      print('Error fetching course outcomes: $e');
+    } on Exception {
+      //print('Error fetching course outcomes: $e');
       return [];
     }
   }
@@ -353,8 +361,8 @@ class AppwriteService {
         documentId: 'unique()',
         data: feedbackData,
       );
-    } catch (e) {
-      throw Exception('Error submitting feedback: $e');
+    } on Exception {
+      throw Exception('Error submitting feedback: ');
     }
   }
 
@@ -383,8 +391,8 @@ class AppwriteService {
         );
         return result.documents.map((doc) => doc.data).toList();
       }
-    } catch (e) {
-      print('Error fetching feedback: $e');
+    } on Exception {
+      //print('Error fetching feedback: ');
       return [];
     }
   }
@@ -403,8 +411,8 @@ class AppwriteService {
 
       // Allow submission only if feedback count is less than 2
       return documents.total < 2;
-    } catch (e) {
-      print('Error fetching feedback count: $e');
+    } on Exception {
+      //print('Error fetching feedback count: ');
       return false;
     }
   }
@@ -423,7 +431,7 @@ class AppwriteService {
           ],
         );
         if (result.documents.isEmpty) {
-          print("No documents found");
+          //print("No documents found");
           return [];
         }
         Map<String, List<Map<String, dynamic>>> groupedCourses = {};
@@ -455,7 +463,7 @@ class AppwriteService {
             });
           }
         });
-        print(coursesList); // For debugging
+        //print(coursesList); // For debugging
         return coursesList;
       } else {
         final result = await database.listDocuments(
@@ -467,7 +475,7 @@ class AppwriteService {
           ],
         );
         if (result.documents.isEmpty) {
-          print("No documents found");
+          //print("No documents found");
           return [];
         }
         List<Map<String, dynamic>> courses = result.documents.map((doc) {
@@ -478,11 +486,11 @@ class AppwriteService {
                 doc.data['feedback_faculty_name'] ?? 'Unknown Faculty',
           };
         }).toList();
-        print(courses); // For debugging
+        //print(courses); // For debugging
         return courses;
       }
-    } catch (e) {
-      print('Error fetching courses: $e');
+    } on Exception {
+      // print('Error fetching courses: $e');
       return [];
     }
   }
@@ -495,8 +503,7 @@ class AppwriteService {
         'password': password,
         'role': role // Store passwords securely in production
       };
-
-      final result = await database.createDocument(
+      await database.createDocument(
         databaseId:
             '67063b0100053a7a4f6b', // Replace with your actual database ID for users
         collectionId:
@@ -504,11 +511,10 @@ class AppwriteService {
         documentId: 'unique()', // Automatically generates a unique document ID
         data: userData,
       );
-
-      print(result);
+      //print(result);
       return "User created successfully";
-    } catch (e) {
-      print('Error adding user: $e');
+    } on Exception {
+      //print('Error adding user: $e');
       return "Error adding user";
     }
   }
@@ -523,7 +529,7 @@ class AppwriteService {
         'faculty_department': deptid,
         'faculty_email': email,
       };
-      final result = await database.createDocument(
+      await database.createDocument(
         databaseId:
             '67063b0100053a7a4f6b', // Replace with your actual database ID
         collectionId:
@@ -531,10 +537,10 @@ class AppwriteService {
         documentId: 'unique()', // Automatically generates a unique document ID
         data: facultyData,
       );
-      print(result);
+      //print(result);
       return "Faculty added successfully";
-    } catch (e) {
-      print('Error adding faculty: $e');
+    } on Exception {
+      //print('Error adding faculty: $e');
       return "Error adding faculty";
     }
   }
@@ -566,16 +572,16 @@ class AppwriteService {
         'CO7': co7,
         'CO8': co8,
       };
-      final result = await database.createDocument(
+      await database.createDocument(
         databaseId: '67063b0100053a7a4f6b', // Replace with your database ID
         collectionId: '67063b40000de94d73f4',
         documentId: 'unique()',
         data: courseData,
       );
-      print(result);
+      //print(result);
       return "Course added successfully";
-    } catch (e) {
-      print('Error adding Course: $e');
+    } on Exception {
+      //print('Error adding Course: $e');
       return "Error adding Course";
     }
   }
@@ -585,7 +591,7 @@ class AppwriteService {
     PermissionStatus status =
         await perm.Permission.manageExternalStorage.request();
     if (status.isGranted) {
-      print("Storage permission granted");
+      //print("Storage permission granted");
     } else {
       throw Exception("Storage permission denied. Cannot export file.");
     }
@@ -655,13 +661,13 @@ class AppwriteService {
           data: excelBytes); // Use 'fileName' parameter for default file name
       final filePath = await FlutterFileDialog.saveFile(params: params);
       if (filePath != null) {
-        print('File saved at $filePath');
+        //print('File saved at $filePath');
       } else {
-        print('File saving cancelled');
+        //print('File saving cancelled');
       }
       return true;
-    } catch (e, stackTrace) {
-      print('Error exporting data: $e\n$stackTrace');
+    } on Exception {
+      //print('Error exporting data: $e\n$stackTrace');
       return false;
     }
   }
