@@ -36,7 +36,7 @@ class _ExportCourseListState extends State<ExportCourseList> {
       // Update state only once after processing
       setState(() {
         courses = uniqueCourses.values.toList();
-        print(' StatsDV : $courses');
+       // print(' StatsDV : $courses');
       });
     } catch (e) {
       print("Error loading data: $e");

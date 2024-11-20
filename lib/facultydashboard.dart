@@ -64,7 +64,7 @@ class FacultyDashboard extends StatelessWidget {
                       onPressed: () async {
                         recUsername =
                             await as.getFullName(f1username, f1userRole);
-                        print('Dashboard :$recUsername');
+                        //print('Dashboard :$recUsername');
                         dID = await as.getDepartmentIdByName(dnameFDashboard);
                         Navigator.push(
                           context,
@@ -83,7 +83,7 @@ class FacultyDashboard extends StatelessWidget {
                       onPressed: () async {
                         recUsername =
                             await as.getFullName(f1username, f1userRole);
-                        print('Dashboard :$recUsername');
+                        //print('Dashboard :$recUsername');
                         dID = await as.getDepartmentIdByName(dnameFDashboard);
                         Navigator.push(
                           context,

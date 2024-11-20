@@ -95,7 +95,7 @@ class Addcourse extends StatelessWidget {
                     co6Controller.clear();
                     co7Controller.clear();
                     co8Controller.clear();
-                    print("Course added successfully!");
+                    //print("Course added successfully!");
                   },
                 ),
               ),

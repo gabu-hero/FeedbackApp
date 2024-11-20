@@ -438,7 +438,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
         ),
       );
       Navigator.of(context).pop();
-      print("Feedback submitted successfully!");
+      //print("Feedback submitted successfully!");
       _resetForm();
     } catch (e) {
       // Optionally handle error case and show error message
@@ -448,7 +448,7 @@ class _FacultyfeedbackformState extends State<Facultyfeedbackform> {
           backgroundColor: Colors.redAccent,
         ),
       );
-      print("Error submitting feedback: $e");
+      //print("Error submitting feedback: $e");
     }
   }
 
