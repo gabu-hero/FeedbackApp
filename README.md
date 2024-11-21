@@ -1,7 +1,7 @@
 # feedback_app
 
-Faculty Feedback System developed using Flutter for a responsive, cross-platform interface, and integrated with an Appwrite backend for secure data management.The proposed system digitizes the entire feedback process, allowing students to submit their evaluations through a user-friendly mobile and web application. The application captures comprehensive feedback across multiple parameters, including course content, teaching effectiveness, faculty engagement, and infrastructure quality. The Appwrite backend facilitates real-time data storage, user authentication, and ensures data integrity, enhancing the overall security and reliability of the system.
-By automating data collection and processing, the Faculty Feedback System eliminates the inefficiencies of the manual process. It provides real-time analytics and visualizations, enabling administrators and faculty members to gain actionable insights quickly. This data-driven approach supports continuous improvement, as it empowers educators with valuable feedback, leading to better teaching practices and enhanced learning experiences. Ultimately, this project modernizes the feedback mechanism, aligning it with the digital transformation goals of educational institutions.
+The Faculty Feedback System automates the feedback process using Flutter and Appwrite. It allows students to submit comprehensive evaluations of courses, teaching, and infrastructure. The Appwrite backend securely manages user data and analytics. This modernizes the feedback mechanism, enabling data-driven insights to improve teaching and learning.
+
 ![image](https://github.com/user-attachments/assets/7e15d224-bc37-4e5e-acc3-e15d3f75b4ec)
 ![image](https://github.com/user-attachments/assets/f8919f0b-f050-49b3-9948-cfd3f52f054f)
 ![image](https://github.com/user-attachments/assets/52e016a9-11aa-4017-91fa-ffd03843d45a)
