@@ -11,6 +11,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _controller;
   late Animation<Offset> _speakerAnimation;
   late Animation<Offset> _textAnimation;
+  late Animation<Offset> _bottomAnimation;
 
   @override
   void initState() {
@@ -36,9 +37,16 @@ class _SplashScreenState extends State<SplashScreen>
       end: Offset(0, 0.2), // Move to the center
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
+    // Define animation for the bottom text
+    _bottomAnimation = Tween<Offset>(
+      begin: Offset(1, 0), // Start off-screen on the right
+      end: Offset(0, 0), // Move to the center
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
     // Start the animation
     _startAnimation();
   }
+
   void _startAnimation() async {
     await _controller.forward();
     // After the animation completes, navigate to the login page
@@ -59,41 +67,59 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xEBFFFFFF),
-      body: Center(
-        child: OverflowBox(
-          maxWidth: double.infinity,
-          maxHeight: double.infinity,
-          child: Stack(
-            alignment: Alignment.center,
-            clipBehavior: Clip.none, // Ensures nothing is cut off
-            children: [
-              SlideTransition(
-                position: _speakerAnimation,
-                child: Transform.translate(
-                  offset: Offset(40, 0), // Top-right positioning
-                  child: Icon(
-                    Icons.campaign, // Speaker symbol
-                    size: 60, // Keep the original size
-                    color: Color(0xff2e73ae),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  // Speaker icon animation
+                  SlideTransition(
+                    position: _speakerAnimation,
+                    child: Transform.translate(
+                      offset: Offset(40, 0),
+                      child: Icon(
+                        Icons.campaign,
+                        size: 60,
+                        color: Color(0xff2e73ae),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              SlideTransition(
-                position: _textAnimation,
-                child: Text(
-                  "CampusVoices",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff2e73ae),
+                  // Main text animation
+                  SlideTransition(
+                    position: _textAnimation,
+                    child: Text(
+                      "CampusVoices",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff2e73ae),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          // Footer text animation at the bottom
+          SlideTransition(
+            position: _bottomAnimation,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Text(
+                "Developed by InovateX",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
+                  color: Color(0xff2e73ae),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
