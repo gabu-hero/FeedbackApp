@@ -1,8 +1,10 @@
 import 'package:feedback_app/mainloginpage.dart';
 import 'package:flutter/material.dart';
 
+// ignore: use_key_in_widget_constructors
 class SplashScreen extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _SplashScreenState createState() => _SplashScreenState();
 }
 
@@ -26,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Define animation for the speaker icon
     _speakerAnimation = Tween<Offset>(
       begin:
-          Offset(-8.5, -0.2), // Start at the center with slight upward offset
+          Offset(-9.5, -0.2), // Start at the center with slight upward offset
       end: Offset(1.5, -0.2), // Move to the right off-screen
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
