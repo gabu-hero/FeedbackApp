@@ -19,7 +19,9 @@ The Faculty Feedback System automates the feedback process using Flutter and App
 ![image](https://github.com/user-attachments/assets/972399e7-fe75-4d57-9a3a-397c1da0e565)
 ![image](https://github.com/user-attachments/assets/2adfba0e-831c-4856-8df3-c45717aec50a)
 
+The Project Report.
 
+[Report CampusVoices.pdf](https://github.com/user-attachments/files/17950357/Report.CampusVoices.pdf)
 
 
 
